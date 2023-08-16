@@ -1,0 +1,11 @@
+--> "SyntaxError: Unexpected token } in JSON at position 99"
+Check your postman syntax
+{
+    "user":
+    {
+        _id: "63be3a811cb9fc6f34641482", //Generate Error
+        "email": "priya123@gmail.com",
+        "email": "priya123@gmail.com". //Generate Error
+    }
+}
+

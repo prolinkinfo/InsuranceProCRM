@@ -1,0 +1,75 @@
+import { Navigate, useRoutes } from 'react-router-dom';
+// layouts
+import DashboardLayout from './layouts/dashboard';
+import SimpleLayout from './layouts/simple';
+//
+import UserView from './pages/user/View'
+import Lead from './pages/Lead/Lead';
+import Page404 from './pages/Page404';
+import DashboardAppPage from './pages/DashboardAppPage';
+import LeadView from './pages/Lead/View'
+import Contact from './pages/contact/Contact';
+import ContactView from './pages/contact/View'
+import Policy from './pages/policy/Policy'
+import PolicyView from './pages/policy/View'
+import Calendar from './pages/Calendar/Calendar';
+import Document from './pages/documents/Documents';
+import Calls from './pages/history/calls/Call';
+import CallsView from './pages/history/calls/View'
+import Meeting from './pages/history/meeting/Meeting';
+import MeetingView from './pages/history/meeting/View'
+import Email from './pages/history/email/Email'
+import EmailView from './pages/history/email/View'
+import Task from './pages/history/task/Task';
+import TaskView from './pages/history/task/View'
+import History from './pages/history/index'
+// ----------------------------------------------------------------------
+
+export default function Router() {
+  const routes = useRoutes([
+    {
+      path: '/dashboard',
+      element: <DashboardLayout />,
+      children: [
+        {  element: <Navigate to="/dashboard/app" />, index: true },
+        { path: 'app', element: <DashboardAppPage /> },
+        { path: 'user/view/:id', element: <UserView /> },
+        { path: 'lead', element: <Lead /> },
+        { path: 'lead/view/:id', element: <LeadView /> },
+        { path: 'contact', element: <Contact /> },
+        { path: 'contact/view/:id', element: <ContactView /> },
+        { path: 'policy', element: <Policy /> },
+        { path: 'policy/view/:id', element: <PolicyView /> },
+        { path: 'calendar', element: <Calendar /> },
+        { path: 'document', element: <Document /> },
+
+        { path: 'call', element: <Calls /> },
+        { path: 'history/call/view/:id', element: <CallsView /> },
+        { path: 'meeting', element: <Meeting /> },
+        { path: 'history/meeting/view/:id', element: <MeetingView /> },
+        { path: 'email', element: <Email /> },
+        { path: 'history/email/view/:id', element: <EmailView /> },
+        { path: 'task', element: <Task /> },
+        { path: 'history/task/view/:id', element: <TaskView /> },
+        { path: 'history', element: <History /> },
+
+        { path: '*', element: <Navigate to="/dashboard/app" />, index: true },
+        { path: '404', element: <Page404 /> },
+      ],
+    },
+
+    {
+      element: <SimpleLayout />,
+      children: [
+        { path: '*', element: <Navigate to="/dashboard/app" />, index: true },
+        // { path: '404', element: <Page404 /> },
+      ],
+    },
+    // {
+    //   path: '*',
+    //   element: <Navigate to="/404" replace />,
+    // },
+  ]);
+
+  return routes;
+}
