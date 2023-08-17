@@ -322,8 +322,8 @@ const AddEvent = ({ open, handleClose, setUserAction, _id, lead, contact }) => {
                                     </FormGroup>
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6} >
-                                    <FormLabel>all day</FormLabel>
                                     <FormControl>
+                                        <FormLabel>all day</FormLabel>
                                         <RadioGroup
                                             row
                                             aria-labelledby="demo-row-radio-buttons-group-label"

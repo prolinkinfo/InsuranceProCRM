@@ -351,8 +351,8 @@ const ViewEdit = ({ open, handleClose, id, deletedata, lead, contact, setUserAct
                                     </FormGroup>
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6} >
-                                    <FormLabel>all Day</FormLabel>
                                     <FormControl>
+                                        <FormLabel>all Day</FormLabel>
                                         <RadioGroup
                                             row
                                             aria-labelledby="demo-row-radio-buttons-group-label"
