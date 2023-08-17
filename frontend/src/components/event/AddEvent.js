@@ -322,6 +322,7 @@ const AddEvent = ({ open, handleClose, setUserAction, _id, lead, contact }) => {
                                     </FormGroup>
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6} >
+                                    <FormLabel>all day</FormLabel>
                                     <FormControl>
                                         <RadioGroup
                                             row
@@ -329,7 +330,8 @@ const AddEvent = ({ open, handleClose, setUserAction, _id, lead, contact }) => {
                                             name="display"
                                             onChange={formik.handleChange}
                                         >
-                                            <FormControlLabel value="background" control={<Radio />} label="All day" />
+                                            <FormControlLabel value="background" control={<Radio />} label="Yes" />
+                                            <FormControlLabel value="no" control={<Radio />} label="No" />
                                         </RadioGroup>
                                     </FormControl>
                                 </Grid>
@@ -359,7 +361,7 @@ const AddEvent = ({ open, handleClose, setUserAction, _id, lead, contact }) => {
                                         helperText={formik.touched.end && formik.errors.end}
                                     />
                                 </Grid>
-                                
+
                                 <Grid item xs={12} sm={6} md={6}>
                                     <FormLabel id="demo-row-radio-buttons-group-label">Background Color</FormLabel>
                                     <TextField

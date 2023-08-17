@@ -13,8 +13,16 @@ import Emails from '../model/emails'
 const index = async (req, res) => {
     const query = req.query
     query.deleted = false;
-    let result = await Contact.find(query)
-    let totalRecords = await Contact.find(query).countDocuments()
+    // let result = await Contact.find(query)
+    // let totalRecords = await Contact.find(query).countDocuments()
+    let allData = await Contact.find(query).populate({
+        path: 'createdBy',
+        match: { deleted: false } // Populate only if createBy.deleted is false
+    }).exec()
+
+    const result = allData.filter(item => item.createdBy !== null);
+
+    let totalRecords = result.length
     res.send({ result, total_recodes: totalRecords })
 }
 

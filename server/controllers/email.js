@@ -4,8 +4,17 @@ import SendMail from '../middlewares/sendMail'
 const index = async (req, res) => {
     const query = req.query
     query.deleted = false;
-    let result = await Emails.find(query).populate("createdBy", ["firstName", "lastName"])
-    let totalRecords = await Emails.find(query).countDocuments()
+    // let result = await Emails.find(query).populate("createdBy", ["firstName", "lastName"])
+    // let totalRecords = await Emails.find(query).countDocuments()
+    let allData = await Emails.find(query).populate({
+        path: 'createdBy',
+        match: { deleted: false }, // Populate only if createBy.deleted is false
+        select: 'firstName lastName'
+    }).exec()
+
+    const result = allData.filter(item => item.createdBy !== null);
+
+    let totalRecords = result.length
     res.send({ result, total_recodes: totalRecords })
 }
 

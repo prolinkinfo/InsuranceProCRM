@@ -522,6 +522,8 @@ const Edit = (props) => {
                                         fullWidth
                                         value={formik.values.additionalEmailAddress}
                                         onChange={formik.handleChange}
+                                        error={formik.touched.additionalEmailAddress && Boolean(formik.errors.additionalEmailAddress)}
+                                        helperText={formik.touched.additionalEmailAddress && formik.errors.additionalEmailAddress}
 
                                     />
                                 </Grid>

@@ -4,8 +4,16 @@ import Meetings from '../model/Meetings'
 const index = async (req, res) => {
     const query = req.query
     query.deleted = false;
-    let result = await Meetings.find(query)
-    let totalRecords = await Meetings.find(query).countDocuments()
+    // let result = await Meetings.find(query)
+    // let totalRecords = await Meetings.find(query).countDocuments()
+    let allData = await Meetings.find(query).populate({
+        path: 'createdBy',
+        match: { deleted: false } // Populate only if createBy.deleted is false
+    }).exec()
+
+    const result = allData.filter(item => item.createdBy !== null);
+
+    let totalRecords = result.length
     res.send({ result, total_recodes: totalRecords })
 }
 

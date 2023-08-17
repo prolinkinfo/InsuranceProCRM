@@ -399,7 +399,8 @@ const Edit = (props) => {
                                         fullWidth
                                         value={formik.values.phoneNumber}
                                         onChange={formik.handleChange}
-
+                                        error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+                                        helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6}>
@@ -412,6 +413,8 @@ const Edit = (props) => {
                                         fullWidth
                                         value={formik.values.emailAddress}
                                         onChange={formik.handleChange}
+                                        error={formik.touched.emailAddress && Boolean(formik.errors.emailAddress)}
+                                        helperText={formik.touched.emailAddress && formik.errors.emailAddress}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6}>
@@ -632,6 +635,8 @@ const Edit = (props) => {
                                         size='small'
                                         value={formik.values.underwriterPhone}
                                         onChange={formik.handleChange}
+                                        error={formik.touched.underwriterPhone && Boolean(formik.errors.underwriterPhone)}
+                                        helperText={formik.touched.underwriterPhone && formik.errors.underwriterPhone}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6}>
@@ -644,6 +649,8 @@ const Edit = (props) => {
                                         size='small'
                                         value={formik.values.underwriterEmail}
                                         onChange={formik.handleChange}
+                                        error={formik.touched.underwriterEmail && Boolean(formik.errors.underwriterEmail)}
+                                        helperText={formik.touched.underwriterEmail && formik.errors.underwriterEmail}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6}>

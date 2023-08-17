@@ -4,8 +4,16 @@ import Notes from '../model/Notes'
 const index = async (req, res) => {
     const query = req.query
     query.deleted = false;
-    let result = await Notes.find(query)
-    let totalRecords = await Notes.find(query).countDocuments()
+    // let result = await Notes.find(query)
+    // let totalRecords = await Notes.find(query).countDocuments()
+    let allData = await Notes.find(query).populate({
+        path: 'createdBy',
+        match: { deleted: false } // Populate only if createBy.deleted is false
+    }).exec()
+
+    const result = allData.filter(item => item.createdBy !== null);
+
+    let totalRecords = result.length
     res.send({ result, total_recodes: totalRecords })
 }
 

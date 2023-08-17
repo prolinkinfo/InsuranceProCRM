@@ -286,6 +286,10 @@ const Edit = (props) => {
                   fullWidth
                   value={formik.values.alternatePhoneNumber}
                   onChange={formik.handleChange}
+                  error={
+                    formik.touched.alternatePhoneNumber && Boolean(formik.errors.alternatePhoneNumber)
+                  }
+                  helperText={formik.touched.alternatePhoneNumber && formik.errors.alternatePhoneNumber}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={6}>
@@ -298,6 +302,10 @@ const Edit = (props) => {
                   fullWidth
                   value={formik.values.additionalEmailAddress}
                   onChange={formik.handleChange}
+                  error={
+                    formik.touched.additionalEmailAddress && Boolean(formik.errors.additionalEmailAddress)
+                  }
+                  helperText={formik.touched.additionalEmailAddress && formik.errors.additionalEmailAddress}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={6}>
