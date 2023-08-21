@@ -37,7 +37,7 @@ For a complete guide on contributing, please refer to our Contributing Guideline
 ## **Support **
 We're Here to Help!
 
-Encountered a bug? Have a suggestion? Need a new feature? We're all ears. Our team is dedicated to providing top-notch support to ensure your experience with InsurancePro is seamless. Don't hesitate to open an issue or reach out to us at support@insuranceprocrm.com.
+Encountered a bug? Have a suggestion? Need a new feature? We're all ears. Our team is dedicated to providing top-notch support to ensure your experience with InsurancePro is seamless. Don't hesitate to open an issue or reach out to us at talent@prolinkinfotech.com.
 
 ## **License**
 
