@@ -15,17 +15,9 @@ Ready to elevate your insurance business? Check out our Installation Guide to ge
 
 ## **Installation**
 
-Getting Started with InsurancePro CRM
+Getting started with InsuranceCRM Pro is a breeze. Follow our comprehensive installation guide to set up the CRM in your local environment. Whether you're an experienced developer or new to the stack, our step-by-step instructions will have you up and running in no time.
 
-Follow these simple steps to set up InsurancePro on your local machine:
-
-Clone the repository: git clone https://github.com/prolinkinfo/InsuranceProCRM.git
-Navigate to the project directory: cd InsurancePro
-Install server dependencies: npm install
-Move to the client folder: cd client
-Install client dependencies: npm install
-Return to the project directory: cd ..
-Start the development server: npm run dev
+Installation Guide
 
 For detailed instructions and troubleshooting, refer to our Installation Guide.
 
