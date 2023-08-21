@@ -19,7 +19,7 @@ Getting started with InsuranceCRM Pro is a breeze. Follow our comprehensive inst
 
 Installation Guide
 
-For detailed instructions and troubleshooting, refer to our Installation Guide.
+For detailed instructions and troubleshooting, refer to our [Installation Guide](https://github.com/prolinkinfo/RealEstateCRM/wiki/InsurancePro-CRM-Installation-Guide).
 
 ## **Contributing**
 
