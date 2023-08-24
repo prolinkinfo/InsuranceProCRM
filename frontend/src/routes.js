@@ -6,7 +6,6 @@ import SimpleLayout from './layouts/simple';
 import User from './pages/user/User'
 import UserView from './pages/user/View'
 import Lead from './pages/Lead/Lead';
-import Page404 from './pages/Page404';
 import DashboardAppPage from './pages/DashboardAppPage';
 import LeadView from './pages/Lead/View'
 import Contact from './pages/contact/Contact';
@@ -15,15 +14,14 @@ import Policy from './pages/policy/Policy'
 import PolicyView from './pages/policy/View'
 import  Calendar  from './pages/Calendar/Calendar';
 import Document from './pages/documents/Documents';
-import Calls from './pages/history/calls/Call';
-import CallsView from './pages/history/calls/View'
-import Meeting from './pages/history/meeting/Meeting';
-import MeetingView from './pages/history/meeting/View'
-import Email from './pages/history/email/Email'
-import EmailView from './pages/history/email/View'
-import Task from './pages/history/task/Task';
-import TaskView from './pages/history/task/View'
-import History from './pages/history/index'
+import Calls from './pages/calls/Call';
+import CallsView from './pages/calls/View'
+import Meeting from './pages/meeting/Meeting';
+import MeetingView from './pages/meeting/View'
+import Email from './pages/email/Email'
+import EmailView from './pages/email/View'
+import Task from './pages/task/Task';
+import TaskView from './pages/task/View'
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -46,14 +44,14 @@ export default function Router() {
         { path: 'document', element: <Document /> },
 
         { path: 'call', element: <Calls /> },
-        { path: 'history/call/view/:id', element: <CallsView /> },
+        { path: 'call/view/:id', element: <CallsView /> },
         { path: 'meeting', element: <Meeting /> },
-        { path: 'history/meeting/view/:id', element: <MeetingView /> },
+        { path: 'meeting/view/:id', element: <MeetingView /> },
         { path: 'email', element: <Email /> },
-        { path: 'history/email/view/:id', element: <EmailView /> },
+        { path: 'email/view/:id', element: <EmailView /> },
         { path: 'task', element: <Task /> },
-        { path: 'history/task/view/:id', element: <TaskView /> },
-        { path: 'history', element: <History /> },
+        { path: 'task/view/:id', element: <TaskView /> },
+        // { path: 'history', element: <History /> },
         
         // { path: '*', element: <Navigate to="/dashboard/app" /> },
       ],

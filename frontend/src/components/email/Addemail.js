@@ -16,7 +16,6 @@ import * as yup from "yup";
 import { apipost } from "src/service/api";
 import { toast } from "react-toastify";
 import { FormLabel } from "@mui/material";
-import { useEffect } from "react";
 
 const Addemail = (props) => {
     const { open, handleClose, _id, setUserAction, receiver } = props

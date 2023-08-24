@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
@@ -29,17 +31,18 @@ import { useNavigate } from 'react-router-dom';
 import { nbNO } from '@mui/x-date-pickers';
 import { DataGrid, GridToolbar, GridToolbarContainer } from '@mui/x-data-grid';
 import { DeleteOutline } from '@mui/icons-material';
-import Label from '../../../components/label';
-import Iconify from '../../../components/iconify';
-import Scrollbar from '../../../components/scrollbar';
+import Label from '../../components/label';
+import Iconify from '../../components/iconify';
+import Scrollbar from '../../components/scrollbar';
 // sections
-import { UserListHead, UserListToolbar } from '../../../sections/@dashboard/user';
+import { UserListHead, UserListToolbar } from '../../sections/@dashboard/user';
 // mock
-import USERLIST from '../../../_mock/user';
-import Palette from '../../../theme/palette';
-import { apiget, deleteManyApi } from '../../../service/api';
-import DeleteModel from '../../../components/Deletemodle'
-import TableStyle from '../../../components/TableStyle';
+import USERLIST from '../../_mock/user';
+import Palette from '../../theme/palette';
+import { apiget, deleteManyApi } from '../../service/api';
+import DeleteModel from '../../components/Deletemodle'
+import TableStyle from '../../components/TableStyle';
+import AddTask from '../../components/task/AddTask'
 // ----------------------------------------------------------------------
 function CustomToolbar({ selectedRowIds, fetchdata }) {
   const [opendelete, setOpendelete] = useState(false);
@@ -66,6 +69,9 @@ function CustomToolbar({ selectedRowIds, fetchdata }) {
 const Task = () => {
   const [allTask, setAllTask] = useState([]);
   const [selectedRowIds, setSelectedRowIds] = useState([]);
+  const [openTask, setOpenTask] = useState(false);
+  const [userAction, setUserAction] = useState(null)
+  const navigate = useNavigate()
 
   const userid = localStorage.getItem('user_id');
   const userRole = localStorage.getItem("userRole")
@@ -74,17 +80,19 @@ const Task = () => {
     setSelectedRowIds(selectionModel);
   };
 
-  const navigate = useNavigate()
+  // open task model
+  const handleOpenTask = () => setOpenTask(true);
+  const handleCloseTask = () => setOpenTask(false);
 
   const columns = [
     {
-      field: "title",
-      headerName: "Title",
+      field: "subject",
+      headerName: "Subject",
       flex: 1,
       cellClassName: "name-column--cell",
       renderCell: (params) => {
         const handleFirstNameClick = () => {
-          navigate(`/dashboard/history/task/view/${params.row._id}`)
+          navigate(`/dashboard/task/view/${params.row._id}`)
         };
 
         return (
@@ -95,12 +103,12 @@ const Task = () => {
       }
     },
     {
-      field: "category",
-      headerName: "Category",
+      field: "status",
+      headerName: "Status",
       flex: 1,
     },
     {
-      field: "start",
+      field: "startDate",
       headerName: "Start Date",
       flex: 1,
       valueFormatter: (params) => {
@@ -109,14 +117,53 @@ const Task = () => {
       },
     },
     {
-      field: "end",
+      field: "endDate",
       headerName: "End Date",
       flex: 1,
       valueFormatter: (params) => {
         const date = new Date(params.value);
         return date.toLocaleString();
       },
+    },
+    {
+      field: "priority",
+      headerName: "Priority",
+      flex: 1,
+    },
+    {
+      field: allTask.relatedTo === "Lead" ? "lead_id" : "contact_id",
+      headerName: "Related To",
+      cellClassName: "name-column--cell",
+      flex: 1,
+      renderCell: (params) => {
+        const handleFirstNameClick = () => {
+          navigate(params?.row?.relatedTo === "Lead" ? `/dashboard/lead/view/${params?.row?.lead_id?._id}` : `/dashboard/contact/view/${params?.row?.contact_id?._id}`)
+        };
+        return (
+          <Box onClick={handleFirstNameClick}>
+            {params?.row?.relatedTo === "Lead" ? `${params?.row?.lead_id?.firstName} ${params?.row?.lead_id?.lastName}` : `${params?.row?.contact_id?.firstName} ${params?.row?.contact_id?.lastName}`
+            }
+          </Box>
+        );
+      }
+    },
+    {
+      field: "createdBy",
+      headerName: "Assigned User",
+      cellClassName: "name-column--cell",
+      flex: 1,
+      renderCell: (params) => {
+        const handleFirstNameClick = () => {
+          navigate(`/dashboard/user/view/${params?.row?.createdBy?._id}`)
+        };
+        return (
+          <Box onClick={handleFirstNameClick}>
+            {`${params.row.createdBy.firstName} ${params.row.createdBy.lastName}`}
+          </Box>
+        );
+      }
     }
+
 
   ];
 
@@ -128,12 +175,24 @@ const Task = () => {
   }
   useEffect(() => {
     fetchdata();
-  }, [])
+  }, [userAction])
 
   return (
     <>
-      <Box>
+
+      {/* Add Tasks */}
+      <AddTask open={openTask} handleClose={handleCloseTask} setUserAction={setUserAction} />
+
+      <Container>
         <TableStyle>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+            <Typography variant="h4">
+              Tasks List
+            </Typography>
+            <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleOpenTask}>
+              New Task
+            </Button>
+          </Stack>
           <Box width="100%" >
             <Card style={{ height: "600px", paddingTop: "15px" }}>
               <DataGrid
@@ -148,7 +207,7 @@ const Task = () => {
             </Card>
           </Box>
         </TableStyle>
-      </Box>
+      </Container>
     </>
   );
 }

@@ -58,7 +58,7 @@ const deleteMany = async (req, res) => {
         const deleteManyEmails = await Calls.updateMany({ _id: { $in: emailIdsToDelete } }, { deleted: true });
 
         if (deleteManyEmails.deletedCount === 0) {
-            return res.status(404).json({ message: "Calls(s) not found." });
+            return res.status(404).json({ message: "Emails(s) not found." });
         }
 
         res.status(200).json({ message: "Emails deleted successfully.", deleteManyEmails });

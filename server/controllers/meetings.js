@@ -6,15 +6,17 @@ const index = async (req, res) => {
     query.deleted = false;
     // let result = await Meetings.find(query)
     // let totalRecords = await Meetings.find(query).countDocuments()
-    let allData = await Meetings.find(query).populate({
-        path: 'createdBy',
-        match: { deleted: false } // Populate only if createBy.deleted is false
-    }).exec()
+    let allData = await Meetings.find(query).
+        populate("createdBy", ["firstName", "lastName"])
+        .populate("lead_id", ["firstName", "lastName"])
+        .populate("contact_id", ["firstName", "lastName"])
 
-    const result = allData.filter(item => item.createdBy !== null);
+    // ).exec()
 
-    let totalRecords = result.length
-    res.send({ result, total_recodes: totalRecords })
+    // const result = allData.filter(item => console.log(item));
+
+    let totalRecords = allData.length
+    res.send({ result: allData, total_recodes: totalRecords })
 }
 
 const add = async (req, res) => {

@@ -8,7 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, Grid, MenuItem, Radio, RadioGroup, Select, TextField } from "@mui/material";
+import { Autocomplete, FormControl, FormControlLabel, FormHelperText, FormLabel, Grid, MenuItem, Radio, RadioGroup, Select, TextField } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -18,45 +18,35 @@ import { toast } from "react-toastify";
 import { apiget, apipost } from "../../service/api";
 
 
-const AddEvent = ({ open, handleClose, setUserAction, _id, lead, contact }) => {
+const AddEvent = ({ open, handleClose, setUserAction, _id }) => {
 
-    const [checked, setChecked] = useState(false);
     const [user, setUser] = useState([])
     const [leadData, setLeadData] = useState([])
     const [contactData, setContactData] = useState([])
-
     const userid = localStorage.getItem('user_id')
     const userRole = localStorage.getItem("userRole");
     const userdata = JSON.parse(localStorage.getItem('user'));
 
     const validationSchema = yup.object({
-        title: yup.string().required("Title is required"),
-        category: yup.string().required("Category is required"),
-        description: yup.string(),
-        note: yup.string(),
+        subject: yup.string().required("Subject is required"),
+        status: yup.string().required("Status is required"),
+        startDate: yup.string().required("Start Date is required"),
+        endDate: yup.string().required("End date is required"),
+        priority: yup.string().required("Priority is required"),
         assignTo: yup.string().required("Assign To is required"),
-        reminder: yup.string(),
-        start: yup.string().required("Start Date is required"),
-        end: yup.string(),
-        backgroundColor: yup.string(),
-        borderColor: yup.string(),
-        textColor: yup.string(),
-        display: yup.string(),
-        url: yup.string(),
-        createdBy: yup.string(),
+        relatedTo: yup.string().required("Related To is required"),
     });
 
     const initialValues = {
-        title: "",
-        category: "",
-        description: "",
-        start: "",
-        end: "",
+        subject: "",
+        status: "",
+        startDate: "",
+        endDate: "",
+        relatedTo: "",
         assignTo: "",
         backgroundColor: "",
         textColor: "",
-        display: "",
-        url: "",
+        priority: "",
         note: "",
         lead_id: _id,
         contact_id: _id,
@@ -150,74 +140,102 @@ const AddEvent = ({ open, handleClose, setUserAction, _id, lead, contact }) => {
                                 columnSpacing={{ xs: 0, sm: 5, md: 4 }}
                             >
                                 <Grid item xs={12} sm={6} md={6}>
-                                    <FormLabel id="demo-row-radio-buttons-group-label">Title</FormLabel>
+                                    <FormLabel id="demo-row-radio-buttons-group-label">Subject</FormLabel>
                                     <TextField
-                                        id="title"
-                                        name="title"
+                                        id="subject"
+                                        name="subject"
                                         label=""
                                         fullWidth
                                         size="small"
-                                        value={formik.values.title}
+                                        value={formik.values.subject}
                                         onChange={formik.handleChange}
                                         error={
-                                            formik.touched.title &&
-                                            Boolean(formik.errors.title)
+                                            formik.touched.subject &&
+                                            Boolean(formik.errors.subject)
                                         }
                                         helperText={
-                                            formik.touched.title && formik.errors.title
+                                            formik.touched.subject && formik.errors.subject
                                         }
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6}>
-                                    <FormLabel id="demo-row-radio-buttons-group-label">Category</FormLabel>
+                                    <FormControl>
+                                        <FormLabel>Related To</FormLabel>
+                                        <RadioGroup
+                                            row
+                                            aria-labelledby="demo-row-radio-buttons-group-label"
+                                            name="relatedTo"
+                                            value={formik.values.relatedTo}
+                                            error={formik.touched.relatedTo && Boolean(formik.errors.relatedTo)}
+                                            onChange={formik.handleChange}
+                                        >
+                                            <FormControlLabel value="Lead" control={<Radio />} label="Lead" />
+                                            <FormControlLabel value="Contact" control={<Radio />} label="Contact" />
+                                        </RadioGroup>
+                                        <FormHelperText
+                                            error={
+                                                formik.touched.relatedTo && Boolean(formik.errors.relatedTo)
+                                            }
+                                        >
+                                            {formik.touched.relatedTo && formik.errors.relatedTo}
+                                        </FormHelperText>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12} sm={4}>
+                                    <FormLabel>Status</FormLabel>
                                     <FormControl fullWidth>
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id=""
-                                            name="category"
+                                            name="status"
                                             label=""
                                             size="small"
-                                            value={formik.values.category}
+                                            value={formik.values.status || null}
                                             onChange={formik.handleChange}
-                                            error={formik.touched.category && Boolean(formik.errors.category)}
+                                            error={formik.touched.status && Boolean(formik.errors.status)}
                                         >
-                                            <MenuItem value="Selete category" disabled>Selete category</MenuItem>
-                                            <MenuItem value="Anniversary">Anniversary</MenuItem>
-                                            <MenuItem value="Meeting">Meeting</MenuItem>
-                                            <MenuItem value="Phone Call">Phone Call</MenuItem>
-                                            <MenuItem value="Task">Task</MenuItem>
-                                            <MenuItem value="Birthday">Birthday</MenuItem>
+                                            <MenuItem value="Note Started">Note Started</MenuItem>
+                                            <MenuItem value="In Progress">In Progress</MenuItem>
+                                            <MenuItem value="Completed">Completed</MenuItem>
+                                            <MenuItem value="Pending Input">Pending Input</MenuItem>
+                                            <MenuItem value="Deferred">Deferred</MenuItem>
                                         </Select>
                                         <FormHelperText
                                             error={
-                                                formik.touched.category && Boolean(formik.errors.category)
+                                                formik.touched.status && Boolean(formik.errors.status)
                                             }
                                         >
-                                            {formik.touched.category && formik.errors.category}
+                                            {formik.touched.status && formik.errors.status}
                                         </FormHelperText>
                                     </FormControl>
                                 </Grid>
-                                <Grid item xs={12} sm={6} md={6}>
-                                    <FormLabel id="demo-row-radio-buttons-group-label">Description</FormLabel>
-
-                                    <TextField
-                                        id="Description"
-                                        name="description"
-                                        label=""
-                                        fullWidth
-                                        size="small"
-                                        value={formik.values.description}
-                                        onChange={formik.handleChange}
-                                        error={
-                                            formik.touched.description &&
-                                            Boolean(formik.errors.description)
-                                        }
-                                        helperText={
-                                            formik.touched.description && formik.errors.description
-                                        }
-                                    />
+                                <Grid item xs={12} sm={4}>
+                                    <FormLabel>Priority</FormLabel>
+                                    <FormControl fullWidth>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id=""
+                                            name="priority"
+                                            label=""
+                                            size="small"
+                                            value={formik.values.priority || null}
+                                            onChange={formik.handleChange}
+                                            error={formik.touched.priority && Boolean(formik.errors.priority)}
+                                        >
+                                            <MenuItem value="High">High</MenuItem>
+                                            <MenuItem value="Medium">Medium</MenuItem>
+                                            <MenuItem value="Low">Low</MenuItem>
+                                        </Select>
+                                        <FormHelperText
+                                            error={
+                                                formik.touched.priority && Boolean(formik.errors.priority)
+                                            }
+                                        >
+                                            {formik.touched.priority && formik.errors.priority}
+                                        </FormHelperText>
+                                    </FormControl>
                                 </Grid>
-                                <Grid item xs={12} sm={6} md={6}>
+                                <Grid item xs={12} sm={6} md={4}>
                                     <FormLabel id="demo-row-radio-buttons-group-label">Assign To</FormLabel>
                                     <FormControl fullWidth>
                                         <Select
@@ -258,107 +276,82 @@ const AddEvent = ({ open, handleClose, setUserAction, _id, lead, contact }) => {
                                     </FormControl>
                                 </Grid>
                                 {
-                                    lead &&
-                                    <Grid item xs={12} sm={6} md={6}>
+                                    formik.values.relatedTo === "Lead" &&
+                                    <Grid item xs={12} sm={12} md={12}>
                                         <FormLabel id="demo-row-radio-buttons-group-label">Related To Lead</FormLabel>
                                         <FormControl fullWidth>
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id=""
-                                                name="lead_id"
-                                                label=""
-                                                size="small"
-                                                value={formik.values.lead_id}
-                                                onChange={formik.handleChange}
-                                                error={formik.touched.lead_id && Boolean(formik.errors.lead_id)}
-                                            >
-                                                <MenuItem selected disabled>Selecte</MenuItem>
-                                                {
-                                                    leadData.map((lead) => {
-                                                        return (
-                                                            <MenuItem key={lead._id} value={lead._id}>
-                                                                {`${lead.firstName} ${lead.lastName}`}
-                                                            </MenuItem>
-                                                        );
-                                                    })
-                                                }
-                                            </Select>
+                                            <Autocomplete
+                                                id="lead-autocomplete"
+                                                options={leadData}
+                                                getOptionLabel={(lead) => `${lead.firstName} ${lead.lastName}`}
+                                                value={leadData.find(lead => lead._id === formik.values.lead_id) || null}
+                                                onChange={(event, newValue) => {
+                                                    formik.setFieldValue("lead_id", newValue ? newValue._id : "");
+                                                }}
+                                                renderInput={(params) => (
+                                                    <TextField
+                                                        {...params}
+                                                        size="small"
+                                                        error={formik.touched.lead_id && Boolean(formik.errors.lead_id)}
+                                                        helperText={formik.touched.lead_id && formik.errors.lead_id}
+                                                    />
+                                                )}
+                                            />
                                         </FormControl>
                                     </Grid>
                                 }
+
                                 {
-                                    contact &&
-                                    <Grid item xs={12} sm={6} md={6}>
+                                    formik.values.relatedTo === "Contact" &&
+                                    <Grid item xs={12} sm={12} md={12}>
                                         <FormLabel id="demo-row-radio-buttons-group-label">Related To Contact</FormLabel>
                                         <FormControl fullWidth>
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id=""
-                                                name="contact_id"
-                                                label=""
-                                                size="small"
-                                                value={formik.values.contact_id}
-                                                onChange={formik.handleChange}
-                                                error={formik.touched.contact_id && Boolean(formik.errors.contact_id)}
-                                            >
-                                                <MenuItem selected disabled>Selecte</MenuItem>
-                                                {
-                                                    contactData.map((contact) => {
-                                                        return (
-                                                            <MenuItem key={contact._id} value={contact._id}>
-                                                                {`${contact.firstName} ${contact.lastName}`}
-                                                            </MenuItem>
-                                                        );
-                                                    })
-                                                }
-                                            </Select>
+                                            <Autocomplete
+                                                id="contact-autocomplete"
+                                                options={contactData}
+                                                getOptionLabel={(contact) => `${contact.firstName} ${contact.lastName}`}
+                                                value={contactData.find(contact => contact._id === formik.values.contact_id) || null}
+                                                onChange={(event, newValue) => {
+                                                    formik.setFieldValue("contact_id", newValue ? newValue._id : "");
+                                                }}
+                                                renderInput={(params) => (
+                                                    <TextField
+                                                        {...params}
+                                                        size="small"
+                                                        error={formik.touched.contact_id && Boolean(formik.errors.contact_id)}
+                                                        helperText={formik.touched.contact_id && formik.errors.contact_id}
+                                                    />
+                                                )}
+                                            />
+
                                         </FormControl>
                                     </Grid>
                                 }
 
                                 <Grid item xs={12} sm={6} md={6}>
-                                    <FormGroup>
-                                        <FormControlLabel control={<Checkbox onChange={(e) => setChecked(e.target.checked)} checked={checked} />} label="all day ?" />
-                                    </FormGroup>
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={6} >
-                                    <FormControl>
-                                        <FormLabel>all day</FormLabel>
-                                        <RadioGroup
-                                            row
-                                            aria-labelledby="demo-row-radio-buttons-group-label"
-                                            name="display"
-                                            onChange={formik.handleChange}
-                                        >
-                                            <FormControlLabel value="background" control={<Radio />} label="Yes" />
-                                            <FormControlLabel value="no" control={<Radio />} label="No" />
-                                        </RadioGroup>
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={6}>
                                     <FormLabel>Start Date</FormLabel>
                                     <TextField
-                                        name='start'
-                                        type={checked ? 'date' : 'datetime-local'}
+                                        name='startDate'
+                                        type={'datetime-local'}
                                         size='small'
                                         fullWidth
-                                        value={formik.values.start}
+                                        value={formik.values.startDate}
                                         onChange={formik.handleChange}
-                                        error={formik.touched.start && Boolean(formik.errors.start)}
-                                        helperText={formik.touched.start && formik.errors.start}
+                                        error={formik.touched.startDate && Boolean(formik.errors.startDate)}
+                                        helperText={formik.touched.startDate && formik.errors.startDate}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6}>
                                     <FormLabel>End Date</FormLabel>
                                     <TextField
-                                        name='end'
-                                        type={checked ? 'date' : 'datetime-local'}
+                                        name='endDate'
+                                        type={'datetime-local'}
                                         size='small'
                                         fullWidth
-                                        value={formik.values.end}
+                                        value={formik.values.endDate}
                                         onChange={formik.handleChange}
-                                        error={formik.touched.end && Boolean(formik.errors.end)}
-                                        helperText={formik.touched.end && formik.errors.end}
+                                        error={formik.touched.endDate && Boolean(formik.errors.endDate)}
+                                        helperText={formik.touched.endDate && formik.errors.endDate}
                                     />
                                 </Grid>
 
@@ -384,7 +377,6 @@ const AddEvent = ({ open, handleClose, setUserAction, _id, lead, contact }) => {
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6}>
                                     <FormLabel id="demo-row-radio-buttons-group-label">Text Color</FormLabel>
-
                                     <TextField
                                         id=""
                                         name="textColor"
@@ -404,28 +396,7 @@ const AddEvent = ({ open, handleClose, setUserAction, _id, lead, contact }) => {
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={12}>
-                                    <FormLabel id="demo-row-radio-buttons-group-label">URL</FormLabel>
-
-                                    <TextField
-                                        id="url"
-                                        name="url"
-                                        label=""
-                                        size="small"
-                                        fullWidth
-                                        value={formik.values.url}
-                                        onChange={formik.handleChange}
-                                        error={
-                                            formik.touched.url &&
-                                            Boolean(formik.errors.url)
-                                        }
-                                        helperText={
-                                            formik.touched.url && formik.errors.url
-                                        }
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={12}>
                                     <FormLabel id="demo-row-radio-buttons-group-label">Note</FormLabel>
-
                                     <TextField
                                         id="Note"
                                         name="note"

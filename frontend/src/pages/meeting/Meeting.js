@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 // @mui
 import { Card, Stack, Button, Container, Typography, Box } from '@mui/material';
@@ -7,9 +9,12 @@ import { DataGrid, GridToolbar, GridToolbarContainer } from '@mui/x-data-grid';
 import { DeleteOutline } from '@mui/icons-material';
 // sections
 // mock
-import { apiget, deleteManyApi } from '../../../service/api';
-import DeleteModel from '../../../components/Deletemodle'
-import TableStyle from '../../../components/TableStyle';
+import { apiget, deleteManyApi } from '../../service/api';
+import DeleteModel from '../../components/Deletemodle'
+import TableStyle from '../../components/TableStyle';
+import Iconify from '../../components/iconify/Iconify';
+import AddMeeting from '../../components/meeting/Addmeetings'
+
 // ----------------------------------------------------------------------
 function CustomToolbar({ selectedRowIds, fetchdata }) {
   const [opendelete, setOpendelete] = useState(false);
@@ -35,6 +40,8 @@ function CustomToolbar({ selectedRowIds, fetchdata }) {
 }
 
 const Meeting = () => {
+  const [openMeeting, setOpenMeeting] = useState(false);
+  const [userAction,setUserAction ] = useState(null);
   const [allMeeting, setAllMeeting] = useState([]);
   const [selectedRowIds, setSelectedRowIds] = useState([]);
   const navigate = useNavigate()
@@ -46,16 +53,19 @@ const Meeting = () => {
     setSelectedRowIds(selectionModel);
   };
 
+  // open Meeting model
+  const handleOpenMeeting = () => setOpenMeeting(true);
+  const handleCloseMeeting = () => setOpenMeeting(false);
 
   const columns = [
     {
-      field: "meetingAgenda",
-      headerName: "Meeting Agenda",
+      field: "subject",
+      headerName: "Subject",
       flex: 1,
       cellClassName: "name-column--cell",
       renderCell: (params) => {
         const handleFirstNameClick = () => {
-          navigate(`/dashboard/history/meeting/view/${params.row._id}`)
+          navigate(`/dashboard/meeting/view/${params.row._id}`)
         };
 
         return (
@@ -66,13 +76,8 @@ const Meeting = () => {
       }
     },
     {
-      field: "meetingAttendes",
-      headerName: "Meeting Attendes",
-      flex: 1,
-    },
-    {
-      field: "meetingDateTime",
-      headerName: "Meeting Date/Time",
+      field: "startDate",
+      headerName: "Start Date",
       flex: 1,
       valueFormatter: (params) => {
         const date = new Date(params.value);
@@ -80,26 +85,86 @@ const Meeting = () => {
       },
     },
     {
-      field: "meetingLocation",
-      headerName: "Meeting Location",
+      field: "endDate",
+      headerName: "End Date",
       flex: 1,
+      valueFormatter: (params) => {
+        const date = new Date(params.value);
+        return date.toLocaleString();
+      },
+    },
+    {
+      field: "duration",
+      headerName: "Duration",
+      flex: 1,
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      flex: 1,
+    },
+    {
+      field: allMeeting.relatedTo === "Lead" ? "lead_id" : "contact_id",
+      headerName: "Related To",
+      cellClassName: "name-column--cell",
+      flex: 1,
+      renderCell: (params) => {
+        const handleFirstNameClick = () => {
+          navigate(params?.row?.relatedTo === "Lead" ? `/dashboard/lead/view/${params?.row?.lead_id?._id}` : `/dashboard/contact/view/${params?.row?.contact_id?._id}`)
+        };
+        return (
+          <Box onClick={handleFirstNameClick}>
+            {params?.row?.relatedTo === "Lead" ? `${params?.row?.lead_id?.firstName} ${params?.row?.lead_id?.lastName}` : `${params?.row?.contact_id?.firstName} ${params?.row?.contact_id?.lastName}`
+            }
+          </Box>
+        );
+      }
+    },
+    {
+      field: "createdBy",
+      headerName: "Assigned User",
+      cellClassName: "name-column--cell",
+      flex: 1,
+      renderCell: (params) => {
+        const handleFirstNameClick = () => {
+          navigate(`/dashboard/user/view/${params?.row?.createdBy?._id}`)
+        };
+        return (
+          <Box onClick={handleFirstNameClick}>
+            {`${params.row.createdBy.firstName} ${params.row.createdBy.lastName}`}
+          </Box>
+        );
+      }
     }
   ];
 
   const fetchdata = async () => {
     const result = await apiget(userRole === "admin" ? `meeting/list` : `meeting/list/?createdBy=${userid}`)
+    
     if (result && result.status === 200) {
       setAllMeeting(result?.data?.result)
     }
   }
   useEffect(() => {
     fetchdata();
-  }, [])
+  }, [userAction])
 
   return (
     <>
-      <Box>
+
+      {/* Add Meeting */}
+      <AddMeeting open={openMeeting} handleClose={handleCloseMeeting} setUserAction={setUserAction}/>
+
+      <Container>
         <TableStyle>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+            <Typography variant="h4">
+              Meetings List
+            </Typography>
+            <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleOpenMeeting}>
+              New Meeting
+            </Button>
+          </Stack>
           <Box width="100%">
             <Card style={{ height: "600px", paddingTop: "15px" }}>
               <DataGrid
@@ -114,7 +179,7 @@ const Meeting = () => {
             </Card>
           </Box>
         </TableStyle>
-      </Box>
+      </Container>
     </>
   );
 }

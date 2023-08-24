@@ -158,28 +158,26 @@ const Contact = () => {
 
             <Container>
                 <TableStyle>
-                    <Box m="20px">
-                        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                            <Typography variant="h4" gutterBottom>
-                                Contact
-                            </Typography>
-                            <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleOpenAdd}>
-                                New Contact
-                            </Button>
-                        </Stack>
-                        <Box width="100%">
-                            <Card style={{ height: "600px", paddingTop: "15px" }}>
-                                <DataGrid
-                                    rows={contactList}
-                                    columns={columns}
-                                    components={{ Toolbar: () => CustomToolbar({ selectedRowIds, fetchdata }) }}
-                                    checkboxSelection
-                                    onRowSelectionModelChange={handleSelectionChange}
-                                    rowSelectionModel={selectedRowIds}
-                                    getRowId={row => row._id}
-                                />
-                            </Card>
-                        </Box>
+                    <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                        <Typography variant="h4">
+                            Contact
+                        </Typography>
+                        <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleOpenAdd}>
+                            New Contact
+                        </Button>
+                    </Stack>
+                    <Box width="100%">
+                        <Card style={{ height: "600px", paddingTop: "15px" }}>
+                            <DataGrid
+                                rows={contactList}
+                                columns={columns}
+                                components={{ Toolbar: () => CustomToolbar({ selectedRowIds, fetchdata }) }}
+                                checkboxSelection
+                                onRowSelectionModelChange={handleSelectionChange}
+                                rowSelectionModel={selectedRowIds}
+                                getRowId={row => row._id}
+                            />
+                        </Card>
                     </Box>
                 </TableStyle>
             </Container>

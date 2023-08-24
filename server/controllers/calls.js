@@ -3,18 +3,16 @@ import Calls from "../model/Calls";
 const index = async (req, res) => {
     const query = req.query
     query.deleted = false;
-    // let result = await Calls.find(query)
-    // let totalRecords = await Calls.find(query).countDocuments()
-    let allData = await Calls.find(query).populate({
-        path: 'createdBy',
-        match: { deleted: false } // Populate only if createBy.deleted is false
-    }).exec()
+ 
+    let allData = await Calls.find(query).
+        populate("createdBy", ["firstName", "lastName"])
+        .populate("lead_id", ["firstName", "lastName"])
+        .populate("contact_id", ["firstName", "lastName"])
 
-    const result = allData.filter(item => item.createdBy !== null);
-
-    let totalRecords = result.length
-    res.send({ result, total_recodes: totalRecords })
+    let totalRecords = allData.length
+    res.send({ result: allData, total_recodes: totalRecords })
 }
+
 
 const add = async (req, res) => {
     try {

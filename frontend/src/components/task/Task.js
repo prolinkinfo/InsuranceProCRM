@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import AddEvent from "./AddEvent";
+import AddEvent from "./AddTask";
 import TableStyleTwo from '../TableStyleTwo';
 
 // eslint-disable-next-line react/prop-types
@@ -18,13 +18,13 @@ const Tasks = ({ rows, toggleVisibilityTask, isVisibleTask, _id, setUserAction, 
 
     const columns = [
         {
-            field: "title",
-            headerName: "Title",
+            field: "subject",
+            headerName: "Subject",
             flex: 1,
             cellClassName: "name-column--cell",
             renderCell: (params) => {
                 const handleFirstNameClick = () => {
-                    navigate(`/dashboard/history/task/view/${params.row._id}`)
+                    navigate(`/dashboard/task/view/${params.row._id}`)
                 };
 
                 return (
@@ -35,12 +35,12 @@ const Tasks = ({ rows, toggleVisibilityTask, isVisibleTask, _id, setUserAction, 
             }
         },
         {
-            field: "category",
-            headerName: "Category",
+            field: "status",
+            headerName: "Status",
             flex: 1,
         },
         {
-            field: "start",
+            field: "startDate",
             headerName: "Start Date",
             flex: 1,
             valueFormatter: (params) => {
@@ -49,13 +49,19 @@ const Tasks = ({ rows, toggleVisibilityTask, isVisibleTask, _id, setUserAction, 
             },
         },
         {
-            field: "end",
+            field: "endDate",
             headerName: "End Date",
             flex: 1,
             valueFormatter: (params) => {
                 const date = new Date(params.value);
                 return date.toLocaleString();
             },
+        },
+        {
+            field: "priority",
+            headerName: "Priority",
+            flex: 1,
+
         }
     ];
 
@@ -65,7 +71,7 @@ const Tasks = ({ rows, toggleVisibilityTask, isVisibleTask, _id, setUserAction, 
             {/* Add Tasks */}
             <AddEvent open={openTask} handleClose={handleCloseTask} _id={_id} setUserAction={setUserAction} leadDatas={leadData} />
 
-            <Box style={{ cursor: "pointer" }} p={1}>
+            <Box style={{ cursor: "pointer" }} p={2}>
                 <Grid container display="flex" alignItems="center">
                     <Stack direction="row" alignItems="center" justifyContent={"space-between"} width={"100%"}>
                         <Stack direction="row" spacing={1} alignItems={"center"}>

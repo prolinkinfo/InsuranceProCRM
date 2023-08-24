@@ -131,9 +131,8 @@ const Policy = () => {
       <AddPolicy open={openAdd} handleClose={handleCloseAdd} setUserAction={setUserAction} />
 
       <Container>
-        <Box m="20px">
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" >
               Policy
             </Typography>
             <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleOpenAdd}>
@@ -156,7 +155,6 @@ const Policy = () => {
               </Card>
             </Box>
           </TableStyle>
-        </Box>
       </Container>
     </>
   );

@@ -1,35 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, Container, Grid, Stack } from '@mui/material'
+import { Box, Container, Grid, Stack, Tab, Tabs } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 // eslint-disable-next-line import/no-unresolved
 import Actionbutton from 'src/components/Actionbutton'
-import Typography from '@mui/material/Typography'
-import RemoveIcon from "@mui/icons-material/Remove";
-import AddIcon from "@mui/icons-material/Add";
-
 // eslint-disable-next-line import/no-unresolved
 import Card from '@mui/material/Card';
-
 // eslint-disable-next-line arrow-body-style
-
 import { useNavigate, useParams } from 'react-router-dom';
 import Papa from "papaparse";
-import { nbNO } from '@mui/x-data-grid';
 import dayjs from 'dayjs';
 import Notes from '../../components/note/Note';
 import Header from '../../components/Header';
 import Overview from './Overview';
 import Moreinformation from './Moreinformation';
 import Other from './Other';
-
 // eslint-disable-next-line arrow-body-style, no-unused-vars
-import Palette from '../../theme/palette'
 import Claim from '../../components/claim/Claim';
 import DeleteModel from '../../components/Deletemodle'
 import AddModel from './Add'
 import EditModel from './Edit'
 import PolicyDocuments from './policyDocument/policyDocuments'
 import { apidelete, apiget } from '../../service/api';
+import { CustomTabPanel, a11yProps } from '../../components/CustomTabPanel';
 
 // eslint-disable-next-line no-unused-vars
 const View = () => {
@@ -39,9 +31,7 @@ const View = () => {
     const [openAdd, setOpenAdd] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [opendelete, setOpendelete] = useState(false);
-    const [isVisibleOverview, setIsVisibleOverview] = useState(true);
-    const [isVisibleMoreinformation, setIsVisibleMoreinformation] = useState(false);
-    const [isVisibleOther, setIsVisibleOther] = useState(false);
+    const [value, setValue] = useState(0);
     const [isVisibleClaim, setIsVisibleClaim] = useState(false);
     const [isVisibleNotes, setIsVisibleNotes] = useState(false);
     const [isVisiblePolicyDoc, setIsVisiblePolicyDoc] = useState(false);
@@ -60,11 +50,10 @@ const View = () => {
     const handleOpenDelete = () => setOpendelete(true);
     const handleCloseDelete = () => setOpendelete(false);
 
+    // tab
+    const handleChange = (event, newValue) => setValue(newValue);
 
     // toggleButton
-    const toggleVisibilityOverview = () => setIsVisibleOverview(!isVisibleOverview);
-    const toggleVisibilityMoreinformation = () => setIsVisibleMoreinformation(!isVisibleMoreinformation);
-    const toggleVisibilityOther = () => setIsVisibleOther(!isVisibleOther);
     const toggleVisibilityClaim = () => setIsVisibleClaim(!isVisibleClaim);
     const toggleVisibilityNotes = () => setIsVisibleNotes(!isVisibleNotes);
     const toggleVisibilityPolicyDoc = () => setIsVisiblePolicyDoc(!isVisiblePolicyDoc);
@@ -184,82 +173,34 @@ const View = () => {
                         </Stack>
                     </Stack>
                 </Grid>
+                <Box sx={{ width: '100%' }}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: "0px" }}>
+                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                            <Tab label="OVERVIEW" {...a11yProps(0)} />
+                            <Tab label="MORE INFORMATION" {...a11yProps(1)} />
+                            <Tab label="OTHER" {...a11yProps(2)} />
+                        </Tabs>
+                    </Box>
+                    <CustomTabPanel value={value} index={0}>
+                        <Overview data={policyData} setUserAction={setUserAction} />
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={1}>
+                        <Moreinformation data={policyData} />
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={2}>
+                        <Other data={policyData} />
+                    </CustomTabPanel>
+                </Box>
+           
 
-                {/* OVERVIEW  */}
+                {/* Notes Table */}
                 <Card sx={{ marginTop: "50px" }}>
-                    <Box
-                        style={{
-                            // background: Palette.grey[300],
-                            cursor: "pointer",
-                        }}
-                        p={1}
-                        onClick={toggleVisibilityOverview}
-                    >
-                        <Stack direction={'row'} spacing={1} display={"flex"} alignItems={"center"} >
-                            <Button
-                                onClick={toggleVisibilityOverview}
-                                color="secondary"
-                                variant="contained"
-                                sx={{ width: "28px", minWidth: "0px", padding: "0px", height: "25px" }}
-                            >
-                                {isVisibleOverview ? <RemoveIcon /> : <AddIcon />}
-                            </Button>
-                            <Typography variant="h5">OVERVIEW</Typography>
-                        </Stack>
-                    </Box>
-                    {isVisibleOverview && <Overview data={policyData} />}
-                </Card>
-
-                {/* MORE INFORMATION */}
-                <Card sx={{ marginTop: "25px" }}>
-                    <Box style={{ cursor: "pointer" }}
-                        p={1}
-                        onClick={toggleVisibilityMoreinformation}
-                    >
-                        <Stack direction={"row"} spacing={1} display={"flex"} alignItems={"center"}>
-                            <Button
-                                onClick={toggleVisibilityMoreinformation}
-                                color="secondary"
-                                variant="contained"
-                                sx={{ width: "28px", minWidth: "0px", padding: "0px", height: "25px" }}
-                            >
-                                {isVisibleMoreinformation ? <RemoveIcon /> : <AddIcon />}
-                            </Button>
-                            <Typography variant="h5">MORE INFORMATION</Typography>
-                        </Stack>
-                    </Box>
-                    {isVisibleMoreinformation && <Moreinformation data={policyData} />}
-                </Card>
-
-                {/* OTHER */}
-                <Card sx={{ marginTop: "25px" }}>
-                    <Box style={{ cursor: "pointer" }}
-                        p={1}
-                        onClick={toggleVisibilityOther}
-                    >
-                        <Stack direction={"row"} spacing={1} display={"flex"} alignItems={"center"}>
-                            <Button
-                                onClick={toggleVisibilityOther}
-                                color="secondary"
-                                variant="contained"
-                                sx={{ width: "28px", minWidth: "0px", padding: "0px", height: "25px" }}
-                            >
-                                {isVisibleOther ? <RemoveIcon /> : <AddIcon />}
-                            </Button>
-                            <Typography variant="h5">Other</Typography>
-                        </Stack>
-                    </Box>
-                    {isVisibleOther && <Other data={policyData} />}
+                    <Notes toggleVisibilityNotes={toggleVisibilityNotes} isVisibleNotes={isVisibleNotes} rows={policyData?.notes} _id={params.id} setUserAction={setUserAction} />
                 </Card>
 
                 {/* Claim Table */}
-                <Card sx={{ marginTop: "50px" }}>
-                    <Claim toggleVisibilityClaim={toggleVisibilityClaim} isVisibleClaim={isVisibleClaim} rows={policyData?.claims} _id={params.id} setUserAction={setUserAction} />
-                </Card>
-
-                {/* Notes Table */}
                 <Card sx={{ marginTop: "20px" }}>
-                    <Notes toggleVisibilityNotes={toggleVisibilityNotes} isVisibleNotes={isVisibleNotes} rows={policyData?.notes} _id={params.id} setUserAction={setUserAction} />
+                    <Claim toggleVisibilityClaim={toggleVisibilityClaim} isVisibleClaim={isVisibleClaim} rows={policyData?.claims} _id={params.id} setUserAction={setUserAction} />
                 </Card>
 
                 {/* PolicyDoc Table */}

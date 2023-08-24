@@ -98,6 +98,7 @@ const login = async (req, res) => {
             res.status(401).json({ message: 'invalid Password' });
             return;
         }
+
         // Create a JWT token
         const token = jwt.sign({ userId: user._id }, 'secret_key', { expiresIn: '1d' });
         res.setHeader('Authorization', token);

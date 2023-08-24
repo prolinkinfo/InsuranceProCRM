@@ -49,8 +49,6 @@ const Emails = ({ rows, toggleVisibilityEmail, isVisibleEmail, _id, setUserActio
     }
   ];
 
-
-
   return (
     <div>
       {/* Add email */}
@@ -58,7 +56,7 @@ const Emails = ({ rows, toggleVisibilityEmail, isVisibleEmail, _id, setUserActio
 
       <Box
         style={{ cursor: "pointer" }}
-        p={1}
+        p={2}
       >
         <Grid container display="flex" alignItems="center">
           <Stack direction="row" alignItems="center" justifyContent={"space-between"} width={"100%"}>

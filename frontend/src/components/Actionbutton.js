@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import styled from '@emotion/styled';
-import { Button, Divider, Menu, Stack, alpha } from '@mui/material'
+import { Button, Menu, Stack, alpha } from '@mui/material'
 import React, { useState } from 'react'
 import MenuItem from "@mui/material/MenuItem";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -8,7 +9,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from "@mui/icons-material/Edit";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import Palette from '../theme/palette'
 
 const StyledMenu = styled((props) => (
     <Menu

@@ -73,7 +73,7 @@ const Addnotes = (props) => {
                         // color: "white",
                     }}
                 >
-                    <Typography variant="h6">Add Note </Typography>
+                    <Typography variant="h6">Create Note </Typography>
                     <Typography>
                         <ClearIcon
                             onClick={handleClose}

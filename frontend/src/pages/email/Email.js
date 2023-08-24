@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/prop-types */
 /* eslint-disable arrow-body-style */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -10,9 +12,10 @@ import { DataGrid, GridToolbar, GridToolbarContainer } from '@mui/x-data-grid';
 // sections
 // mock
 import { DeleteOutline } from '@mui/icons-material';
-import DeleteModel from '../../../components/Deletemodle'
-import { apiget, deleteManyApi } from '../../../service/api';
-import TableStyle from '../../../components/TableStyle';
+import DeleteModel from '../../components/Deletemodle'
+import { apiget, deleteManyApi } from '../../service/api';
+import TableStyle from '../../components/TableStyle';
+import Iconify from '../../components/iconify/Iconify';
 // ----------------------------------------------------------------------
 
 function CustomToolbar({ selectedRowIds, fetchdata }) {
@@ -49,9 +52,9 @@ const Email = () => {
     const userRole = localStorage.getItem("userRole")
 
     const handleSelectionChange = (selectionModel) => {
-      setSelectedRowIds(selectionModel);
+        setSelectedRowIds(selectionModel);
     };
-  
+
     const columns = [
         {
             field: "subject",
@@ -60,7 +63,7 @@ const Email = () => {
             cellClassName: "name-column--cell",
             renderCell: (params) => {
                 const handleFirstNameClick = () => {
-                    navigate(`/dashboard/history/email/view/${params.row._id}`)
+                    navigate(`/dashboard/email/view/${params.row._id}`)
                 };
 
                 return (
@@ -85,7 +88,6 @@ const Email = () => {
             headerName: "Created By",
             flex: 1,
             cellClassName: "name-column--cell",
-
             renderCell: (params) => {
                 const handleFirstNameClick = () => {
                     navigate(`/dashboard/user/view/${params?.row?.createdBy?._id}`)
@@ -111,8 +113,16 @@ const Email = () => {
     }, [userAction])
     return (
         <>
-            <Box>
+            <Container>
                 <TableStyle>
+                    <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                        <Typography variant="h4">
+                            Emails List
+                        </Typography>
+                        <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} >
+                            New Email
+                        </Button>
+                    </Stack>
                     <Box width="100%">
                         <Card style={{ height: "600px", paddingTop: "15px" }}>
                             <DataGrid
@@ -127,7 +137,7 @@ const Email = () => {
                         </Card>
                     </Box>
                 </TableStyle>
-            </Box>
+            </Container>
         </>
     );
 }

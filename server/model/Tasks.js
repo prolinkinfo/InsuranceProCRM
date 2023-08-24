@@ -1,21 +1,20 @@
 import mongoose from "mongoose"
 
 const Tasks = new mongoose.Schema({
-    title: { type: String, required: true },
-    category: { type: String, required: true },
-    description: { type: String },
-    start: { type: String },
-    end: { type: String },
+    subject: { type: String, required: true },
+    relatedTo: { type: String },
+    status: { type: String },
+    startDate: { type: Date },
+    endDate: { type: Date },
     assignTo: {
         type: mongoose.Schema.ObjectId,
         ref: "User"
     },
     backgroundColor: { type: String },
     textColor: { type: String },
-    display: { type: String },
-    url: { type: String },
+    priority: { type: String },
     note: { type: String },
-    
+
     // TaskAssignee: { type: String required: true },
     // TaskReminders: { type: String, required: true },
     lead_id: {

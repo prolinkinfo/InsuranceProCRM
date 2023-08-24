@@ -82,7 +82,7 @@ const PolicyDocumentPage = ({ rows, toggleVisibilityPolicyDoc, isVisiblePolicyDo
             {/* Add Document Model */}
             <AddDocument open={openAdd} handleClose={handleCloseAdd} setUserAction={setUserAction} _id={_id} />
 
-            <Box p={1} style={{ cursor: "pointer" }}>
+            <Box p={2} style={{ cursor: "pointer" }}>
                 <Grid container display="flex" alignItems="center">
                     <Stack direction="row" alignItems="center" justifyContent={"space-between"} width={"100%"}>
                         <Stack direction="row" spacing={1} alignItems={"center"}>

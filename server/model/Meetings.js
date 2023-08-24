@@ -1,12 +1,14 @@
 import mongoose from "mongoose"
 
 const Meetings = new mongoose.Schema({
-    meetingAgenda: { type: String, required: true },
-    meetingAttendes: { type: String, required: true },
-    meetingLocation: { type: String, required: true },
-    meetingDateTime: { type: String, required: true },
-    meetingNotes: { type: String, required: true },
-    // meetingReminders: { type: String, required: true },
+    subject: { type: String, required: true },
+    status: { type: String, required: true },
+    startDate: { type: String, required: true },
+    endDate: { type: String, required: true },
+    duration: { type: String, required: true },
+    location: { type: String, required: true },
+    relatedTo: { type: String, required: true },
+    note: { type: String, required: true },
     lead_id: {
         type: mongoose.Schema.ObjectId,
         ref: "Lead"
@@ -24,7 +26,7 @@ const Meetings = new mongoose.Schema({
         default: false,
     },
     createdOn: { type: Date, default: Date.now },
-    modifiedOn: { type: Date,default: Date.now }
+    modifiedOn: { type: Date, default: Date.now }
 })
 
 export default mongoose.model('Meetings', Meetings)

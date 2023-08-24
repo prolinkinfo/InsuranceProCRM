@@ -1,11 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, Container, Grid, Stack } from '@mui/material'
+import { Box, Container, Grid, Stack } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 // eslint-disable-next-line import/no-unresolved
 import Actionbutton from 'src/components/Actionbutton'
 import Typography from '@mui/material/Typography'
-import RemoveIcon from "@mui/icons-material/Remove";
-import AddIcon from "@mui/icons-material/Add";
 
 // eslint-disable-next-line import/no-unresolved
 import Card from '@mui/material/Card';
@@ -14,18 +12,17 @@ import Card from '@mui/material/Card';
 
 import { useNavigate, useParams } from 'react-router-dom';
 
-import DeleteModel from '../../../components/Deletemodle'
+import DeleteModel from '../../components/Deletemodle'
 import Overview from './Overview';
 
 // eslint-disable-next-line arrow-body-style
-import { apidelete, apiget } from '../../../service/api';
-import Header from '../../../components/Header';
+import { apidelete, apiget } from '../../service/api';
+import Header from '../../components/Header';
 
 
 const View = () => {
     const [emailData, setEmailData] = useState({});
     const [opendelete, setOpendelete] = useState(false);
-    const [isVisibleOverview, setIsVisibleOverview] = useState(true);
     const navigate = useNavigate()
     const params = useParams()
     
@@ -34,14 +31,9 @@ const View = () => {
     const handleOpenDelete = () => setOpendelete(true);
     const handleCloseDelete = () => setOpendelete(false);
 
-    // toggeleButton
-    const toggleVisibilityOverview = () => setIsVisibleOverview(!isVisibleOverview);
-
-
- 
-
+    
     const back = () => {
-        navigate('/dashboard/history')
+        navigate('/dashboard/email')
     }
 
 
@@ -56,7 +48,7 @@ const View = () => {
     // delete api
     const deletedata = async () => {
         await apidelete(`email/delete/${params.id}`)
-        navigate('/dashboard/history')
+        navigate('/dashboard/email')
     }
 
 
@@ -91,28 +83,13 @@ const View = () => {
                 </Grid>
 
                 {/* OVERVIEW  */}
-                <Card sx={{ marginTop: "50px" }}>
-                    <Box
-                        style={{
-                            // background: Palette.grey[300],
-                            cursor: "pointer",
-                        }}
-                        p={1}
-                        onClick={toggleVisibilityOverview}
-                    >
+                <Card>
+                    <Box p={1}>
                         <Stack direction={'row'} spacing={1} display={"flex"} alignItems={"center"} >
-                            <Button
-                                onClick={toggleVisibilityOverview}
-                                color="secondary"
-                                variant="contained"
-                                sx={{ width: "28px", minWidth: "0px", padding: "0px", height: "25px" }}
-                            >
-                                {isVisibleOverview ? <RemoveIcon /> : <AddIcon />}
-                            </Button>
                             <Typography variant="h5">OVERVIEW</Typography>
                         </Stack>
                     </Box>
-                    {isVisibleOverview && <Overview data={emailData} />}
+                 <Overview data={emailData} />
                 </Card>
 
             </Container>

@@ -13,11 +13,6 @@ const navConfig = [
     icon: icon('ic_analytics'),
   },
   {
-    title: 'User Management',
-    path: '/dashboard/user',
-    icon: icon('ic_user'),
-  },
-  {
     title: 'Lead Management',
     path: '/dashboard/lead',
     icon: icon('ic_lead'),
@@ -33,57 +28,47 @@ const navConfig = [
     icon: icon('ic_policy'),
   },
   {
-    title: 'Document Management',
-    path: '/dashboard/document',
-    icon: icon('ic_document'),
+    title: 'Tasks',
+    path: '/dashboard/task',
+    icon: icon('ic_task'),
   },
-  // {
-  //   title: 'Communication',
-  //   path: '/dashboard/communication',
-  //   icon: icon('ic_communication'),
-  // },
+  {
+    title: 'Meetings',
+    path: '/dashboard/meeting',
+    icon: icon('ic_meeting'),
+  },
+  {
+    title: 'Calls',
+    path: '/dashboard/call',
+    icon: icon('ic_call'),
+  },
+  {
+    title: 'Emails',
+    path: '/dashboard/email',
+    icon: icon('ic_email'),
+  },
   {
     title: 'Calendar',
     path: '/dashboard/calendar',
     icon: icon('ic_calendar'),
   },
-  // {
-  //   title: 'Renewal',
-  //   path: '/dashboard/renewal',
-  //   icon: icon('ic_renewal'),
-  // },
-  // {
-  //   title: 'Policy Plans',
-  //   path: '/dashboard/policyplans',
-  //   icon: icon('ic_plan'),
-  // },
   {
-    title: 'History',
-    path: '/dashboard/history',
-    icon: icon('ic_history'),
+    title: 'Document Management',
+    path: '/dashboard/document',
+    icon: icon('ic_document'),
+  },
+  {
+    title: 'User Management',
+    path: '/dashboard/user',
+    icon: icon('ic_user'),
   },
 
   // {
-  //   title: 'product',
-  //   path: '/dashboard/products',
-  //   icon: icon('ic_cart'),
-  // },
-  // {
-  //   title: 'blog',
-  //   path: '/dashboard/blog',
-  //   icon: icon('ic_blog'),/
+  //   title: 'History',
+  //   path: '/dashboard/history',
+  //   icon: icon('ic_history'),
   // },
 
-  // {
-  //   title: 'login',
-  //   path: '/login',
-  //   icon: icon('ic_lock'),
-  // },
-  // {
-  //   title: 'Not found',
-  //   path: '/404',
-  //   icon: icon('ic_disabled'),
-  // },
 ];
 
 export default navConfig;

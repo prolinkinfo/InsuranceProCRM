@@ -28,23 +28,35 @@ const UserConfig = [
     icon: icon('ic_policy'),
   },
   {
-    title: 'Document Management',
-    path: '/dashboard/document',
-    icon: icon('ic_document'),
+    title: 'Tasks',
+    path: '/dashboard/task',
+    icon: icon('ic_task'),
   },
-
+  {
+    title: 'Meetings',
+    path: '/dashboard/meeting',
+    icon: icon('ic_meeting'),
+  },
+  {
+    title: 'Calls',
+    path: '/dashboard/call',
+    icon: icon('ic_call'),
+  },
+  {
+    title: 'Emails',
+    path: '/dashboard/email',
+    icon: icon('ic_email'),
+  },
   {
     title: 'Calendar',
     path: '/dashboard/calendar',
     icon: icon('ic_calendar'),
   },
- 
-  
   {
-    title: 'History',
-    path: '/dashboard/history',
-    icon: icon('ic_history'),
-  },
+    title: 'Document Management',
+    path: '/dashboard/document',
+    icon: icon('ic_document'),
+  }
 ];
 
 export default UserConfig;

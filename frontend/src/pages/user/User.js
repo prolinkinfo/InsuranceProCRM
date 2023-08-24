@@ -71,28 +71,26 @@ const User = () => {
             <AddUser open={openAdd} handleClose={handleCloseAdd} />
 
             <Container>
-                <Box m="20px">
-                    <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                        <Typography variant="h4" gutterBottom>
-                            User
-                        </Typography>
-                        <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleOpenAdd}>
-                            New User
-                        </Button>
-                    </Stack>
-                    <TableStyle>
-                        <Box width="100%" >
-                            <Card style={{ height: "600px", paddingTop: "15px" }}>
-                                <DataGrid
-                                    rows={allUser}
-                                    columns={columns}
-                                    components={{ Toolbar: GridToolbar }}
-                                    getRowId={row => row._id}
-                                />
-                            </Card>
-                        </Box>
-                    </TableStyle>
-                </Box>
+                <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                    <Typography variant="h4">
+                        User
+                    </Typography>
+                    <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleOpenAdd}>
+                        New User
+                    </Button>
+                </Stack>
+                <TableStyle>
+                    <Box width="100%" >
+                        <Card style={{ height: "600px", paddingTop: "15px" }}>
+                            <DataGrid
+                                rows={allUser}
+                                columns={columns}
+                                components={{ Toolbar: GridToolbar }}
+                                getRowId={row => row._id}
+                            />
+                        </Card>
+                    </Box>
+                </TableStyle>
             </Container >
         </>
     );

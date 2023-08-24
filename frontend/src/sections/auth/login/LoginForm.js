@@ -7,15 +7,15 @@ import { LoadingButton } from '@mui/lab';
 import { useFormik } from 'formik';
 import * as yup from "yup";
 
+import CircularProgress from '@mui/material/CircularProgress';
 import { apipost } from '../../../service/api';
 import Iconify from '../../../components/iconify';
-
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-
+  const [isLoading, setIsLogin] = useState(false)
 
   const initialValues = {
     emailAddress: "",
@@ -30,6 +30,7 @@ export default function LoginForm() {
   });
 
   const Adddata = async (values) => {
+    setIsLogin(true)
     const data = values
     const result = await apipost('user/login', data)
 
@@ -41,6 +42,8 @@ export default function LoginForm() {
     } else {
       navigate('/login')
     }
+
+    setIsLogin(false)
   }
 
   // formik
@@ -55,7 +58,7 @@ export default function LoginForm() {
 
   return (
     <>
-      <form>
+      <form onSubmit={formik.handleSubmit}>
         <Stack spacing={3} mb={2}>
           <TextField
             name="emailAddress"
@@ -95,11 +98,10 @@ export default function LoginForm() {
             }
           />
         </Stack>
+        <LoadingButton fullWidth size="large" type="submit" variant="contained" disabled={!!isLoading}>
+          {isLoading ? <CircularProgress /> : 'Login'}
+        </LoadingButton>
       </form>
-
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={formik.handleSubmit}>
-        Login
-      </LoadingButton>
     </>
   );
 }

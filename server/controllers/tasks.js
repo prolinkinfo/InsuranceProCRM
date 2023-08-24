@@ -5,17 +5,14 @@ import Tasks from "../model/Tasks";
 const index = async (req, res) => {
     const query = req.query
     query.deleted = false;
-    // let result = await Tasks.find(query)
-    // let totalRecords = await Tasks.find(query).countDocuments()
-    let allData = await Tasks.find(query).populate({
-        path: 'createdBy',
-        match: { deleted: false } // Populate only if createBy.deleted is false
-    }).exec()
+ 
+    let allData = await Tasks.find(query).
+        populate("createdBy", ["firstName", "lastName"])
+        .populate("lead_id", ["firstName", "lastName"])
+        .populate("contact_id", ["firstName", "lastName"])
 
-    const result = allData.filter(item => item.createdBy !== null);
-
-    let totalRecords = result.length
-    res.send({ result, total_recodes: totalRecords })
+    let totalRecords = allData.length
+    res.send({ result: allData, total_recodes: totalRecords })
 }
 
 const add = async (req, res) => {

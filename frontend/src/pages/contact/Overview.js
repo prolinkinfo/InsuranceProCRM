@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Card, Grid, Typography } from '@mui/material'
 import dayjs from 'dayjs'
 import React, { useState } from 'react'
 import Palette from '../../theme/palette'
@@ -17,42 +17,44 @@ const Overview = ({ data, setUserAction }) => {
       {/* Add Email Model */}
       <Addemail open={open} handleClose={handleClose} _id={data?._id} receiver={data} setUserAction={setUserAction} />
 
-      <Box mt="0px" style={{ borderTop: "1px solid", borderTopColor: Palette.grey[400] }} p={3}>
-        <Grid container display="flex" spacing={4}>
-          <Grid item xs={12} sm={6}>
-            <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400] }} pb={2}>
-              <Typography variant="body1">Name :</Typography>
-              <Typography variant="body2" color={Palette.grey[600]} textTransform={"capitalize"}>{`${data?.firstName} ${data?.lastName}`}</Typography>
+      <Card style={{borderTopLeftRadius:"0px",borderTopRightRadius:"0px"}}>
+        <Box p={3}>
+          <Grid container display="flex" spacing={4}>
+            <Grid item xs={12} sm={6}>
+              <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400] }} pb={2}>
+                <Typography variant="body1">Name :</Typography>
+                <Typography variant="body2" color={Palette.grey[600]} textTransform={"capitalize"}>{`${data?.firstName} ${data?.lastName}`}</Typography>
+              </Grid>
+              <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400], }} py={2}>
+                <Typography variant="body1">Date Of Birth :</Typography>
+                <Typography variant="body2" color={Palette.grey[600]}>
+                  {
+                    data?.dateOfBirth ? dayjs(data?.dateOfBirth).format("DD/MM/YYYY") : "--"
+                  }
+                </Typography>
+              </Grid>
+              <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400] }} py={2}>
+                <Typography variant="body1">Gender :</Typography>
+                <Typography variant="body2" color={Palette.grey[600]}>{data?.gender ? data?.gender : "--"}</Typography>
+              </Grid>
             </Grid>
-            <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400], }} py={2}>
-              <Typography variant="body1">Date Of Birth :</Typography>
-              <Typography variant="body2" color={Palette.grey[600]}>
-                {
-                  data?.dateOfBirth ? dayjs(data?.dateOfBirth).format("DD/MM/YYYY") : "--"
-                }
-              </Typography>
-            </Grid>
-            <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400] }} py={2}>
-              <Typography variant="body1">Gender :</Typography>
-              <Typography variant="body2" color={Palette.grey[600]}>{data?.gender ? data?.gender : "--"}</Typography>
+            <Grid item xs={12} sm={6}>
+              <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400] }} pb={2}>
+                <Typography variant="body1">Phone Number :</Typography>
+                <Typography variant="body2" color={Palette.grey[600]}>{data?.phoneNumber ? data?.phoneNumber : "--"}</Typography>
+              </Grid>
+              <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400] }} py={2}>
+                <Typography variant="body1">Email :</Typography>
+                <Typography variant="body2" color={Palette.primary.main} onClick={handleOpen} style={{ cursor: "pointer" }}>{data?.emailAddress ? data?.emailAddress : "--"}</Typography>
+              </Grid>
+              <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400] }} py={2}>
+                <Typography variant="body1">Address :</Typography>
+                <Typography variant="body2" color={Palette.grey[600]}>{data?.address ? data?.address : "--"}</Typography>
+              </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400] }} pb={2}>
-              <Typography variant="body1">Phone Number :</Typography>
-              <Typography variant="body2" color={Palette.grey[600]}>{data?.phoneNumber ? data?.phoneNumber : "--"}</Typography>
-            </Grid>
-            <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400] }} py={2}>
-              <Typography variant="body1">Email :</Typography>
-              <Typography variant="body2" color={Palette.primary.main} onClick={handleOpen} style={{ cursor: "pointer" }}>{data?.emailAddress ? data?.emailAddress : "--"}</Typography>
-            </Grid>
-            <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400] }} py={2}>
-              <Typography variant="body1">Address :</Typography>
-              <Typography variant="body2" color={Palette.grey[600]}>{data?.address ? data?.address : "--"}</Typography>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      </Card>
     </div>
   )
 }

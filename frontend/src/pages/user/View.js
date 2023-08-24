@@ -1,8 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, Card, Container, Grid, Stack, Typography } from '@mui/material';
+import { Box, Card, Container, Grid, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
 import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment/moment'
 import Actionbutton from '../../components/Actionbutton';
@@ -102,7 +100,7 @@ const View = () => {
                 </Grid>
 
                 {/* OVERVIEW  */}
-                <Card sx={{ marginTop: "50px" }}>
+                <Card>
                     <Box style={{ cursor: "pointer" }} p={1}>
                         <Typography variant="h5">OVERVIEW</Typography>
                     </Box>

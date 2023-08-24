@@ -1,12 +1,12 @@
 import mongoose from "mongoose"
 
 const Calls = new mongoose.Schema({
-    callType: { type: String, required: true },
-    callDuration: { type: String, required: true },
-    callOutcome: { type: String, required: true },
-    callDateTime: { type: String, required: true },
-    callNotes: { type: String, required: true },
-    callerName: { type: String, required: true },
+    subject: { type: String, required: true },
+    status: { type: String, required: true },
+    startDateTime: { type: String, required: true },
+    duration: { type: String, required: true },
+    relatedTo: { type: String, required: true },
+    note: { type: String, required: true },
     lead_id: {
         type: mongoose.Schema.ObjectId,
         ref: "Lead"

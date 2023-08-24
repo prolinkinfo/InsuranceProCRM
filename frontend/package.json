@@ -62,6 +62,8 @@
     "file-saver": "^2.0.5",
     "formik": "^2.4.2",
     "history": "^5.3.0",
+    "jsonwebtoken": "^9.0.1",
+    "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "numeral": "^2.0.6",

@@ -151,36 +151,31 @@ const Lead = () => {
 
 
       <Container>
-        <Box m="20px">
-          <Stack direction="row" alignItems="center" mb={5} justifyContent={"space-between"}>
-            <Typography variant="h4" gutterBottom>
-              Lead
-            </Typography>
-            <Stack direction="row" alignItems="center" justifyContent={"flex-end"} spacing={2}>
-              <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleOpenAdd}>
-                New Lead
-              </Button>
-              {/* <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleClickOpen}>
-                Import
-              </Button> */}
-            </Stack>
+        <Stack direction="row" alignItems="center" mb={5} justifyContent={"space-between"}>
+          <Typography variant="h4" >
+            Lead
+          </Typography>
+          <Stack direction="row" alignItems="center" justifyContent={"flex-end"} spacing={2}>
+            <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleOpenAdd}>
+              New Lead
+            </Button>
           </Stack>
-          <TableStyle>
-            <Box width="100%">
-              <Card style={{ height: "600px", paddingTop: "15px" }}>
-                <DataGrid
-                  rows={leadData}
-                  columns={columns}
-                  components={{ Toolbar: () => CustomToolbar({ selectedRowIds, fetchdata }) }}
-                  checkboxSelection
-                  onRowSelectionModelChange={handleSelectionChange}
-                  rowSelectionModel={selectedRowIds}
-                  getRowId={row => row._id}
-                />
-              </Card>
-            </Box>
-          </TableStyle>
-        </Box>
+        </Stack>
+        <TableStyle>
+          <Box width="100%">
+            <Card style={{ height: "600px", paddingTop: "15px" }}>
+              <DataGrid
+                rows={leadData}
+                columns={columns}
+                components={{ Toolbar: () => CustomToolbar({ selectedRowIds, fetchdata }) }}
+                checkboxSelection
+                onRowSelectionModelChange={handleSelectionChange}
+                rowSelectionModel={selectedRowIds}
+                getRowId={row => row._id}
+              />
+            </Card>
+          </Box>
+        </TableStyle>
       </Container >
     </>
   );

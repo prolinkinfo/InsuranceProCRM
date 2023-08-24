@@ -19,13 +19,13 @@ const Call = ({ rows, toggleVisibilityCall, isVisibleCall, _id, setUserAction })
 
     const columns = [
         {
-            field: "callType",
-            headerName: "Call Type ",
+            field: "subject",
+            headerName: "Subject ",
             cellClassName: "name-column--cell",
             flex: 1,
             renderCell: (params) => {
                 const handleFirstNameClick = () => {
-                    navigate(`/dashboard/history/call/view/${params.row._id}`)
+                    navigate(`/dashboard/call/view/${params.row._id}`)
                 };
                 return (
                     <Box onClick={handleFirstNameClick}>
@@ -34,16 +34,18 @@ const Call = ({ rows, toggleVisibilityCall, isVisibleCall, _id, setUserAction })
                 );
             }
         },
-        { field: "callDuration", headerName: "Call Duration", headerAlign: "left", align: "left", flex: 1 },
         {
-            field: "callDateTime",
-            headerName: "Call Date/Time",
+            field: "startDateTime",
+            headerName: "Start Date & Time",
             flex: 1,
             valueFormatter: (params) => {
                 const date = new Date(params.value);
                 return date.toLocaleString();
             },
         },
+        { field: "duration", headerName: "Duration", headerAlign: "left", align: "left", flex: 1 },
+        { field: "status", headerName: "Status", headerAlign: "left", align: "left", flex: 1 },
+
 
     ];
 
@@ -52,7 +54,7 @@ const Call = ({ rows, toggleVisibilityCall, isVisibleCall, _id, setUserAction })
             {/* Add Calls */}
             <Addcalls open={openCall} handleClose={handleCloseCall} _id={_id} setUserAction={setUserAction} />
 
-            <Box style={{ cursor: "pointer" }} p={1}>
+            <Box style={{ cursor: "pointer" }} p={2}>
                 <Grid container display="flex" alignItems="center">
                     <Stack direction="row" alignItems="center" justifyContent={"space-between"} width={"100%"}>
                         <Stack direction="row" spacing={1} alignItems={"center"}>

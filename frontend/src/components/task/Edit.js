@@ -8,7 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, Grid, MenuItem, Radio, RadioGroup, Select, TextField } from "@mui/material";
+import { Autocomplete, FormControl, FormControlLabel, FormHelperText, FormLabel, Grid, MenuItem, Radio, RadioGroup, Select, TextField } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -19,9 +19,8 @@ import moment from "moment";
 import dayjs from "dayjs";
 import { apiget, apiput } from "../../service/api";
 
-const ViewEdit = ({ open, handleClose, id, deletedata, lead, contact, setUserAction }) => {
+const ViewEdit = ({ open, handleClose, id, setUserAction }) => {
 
-    const [checked, setChecked] = useState(false);
     const [taskData, setTaskData] = useState({})
     const [user, setUser] = useState([])
     const [leadData, setLeadData] = useState([])
@@ -32,33 +31,25 @@ const ViewEdit = ({ open, handleClose, id, deletedata, lead, contact, setUserAct
     const userdata = JSON.parse(localStorage.getItem('user'));
 
     const validationSchema = yup.object({
-        title: yup.string().required(),
-        category: yup.string(),
-        description: yup.string(),
-        note: yup.string(),
-        assignTo: yup.string().required(),
-        reminder: yup.string(),
-        start: yup.string().required(),
-        end: yup.string(),
-        backgroundColor: yup.string(),
-        borderColor: yup.string(),
-        textColor: yup.string(),
-        display: yup.string(),
-        url: yup.string(),
-        createdBy: yup.string(),
+        subject: yup.string().required("Subject is required"),
+        status: yup.string().required("Status is required"),
+        startDate: yup.string().required("Start Date is required"),
+        endDate: yup.string().required("End date is required"),
+        priority: yup.string().required("Priority is required"),
+        assignTo: yup.string().required("Assign To is required"),
+        relatedTo: yup.string().required("Related To is required"),
     });
 
     const initialValues = {
-        title: taskData?.title,
-        category: taskData?.category,
-        description: taskData?.description,
-        start: moment(taskData?.start).format('MM-DD-YYYY'),
-        end: taskData?.end,
+        subject: taskData?.subject,
+        status: taskData?.status,
+        startDate: taskData?.startDate,
+        endDate: moment(taskData?.endDate).format('MM-DD-YYYY hh:mm:ss'),
+        relatedTo: taskData?.relatedTo,
         assignTo: taskData?.assignTo?._id,
         backgroundColor: taskData?.backgroundColor,
         textColor: taskData?.textColor,
-        display: taskData?.display,
-        url: taskData?.url,
+        priority: taskData?.priority,
         note: taskData?.note,
         lead_id: taskData?.lead_id?._id,
         contact_id: taskData?.contact_id?._id,
@@ -81,16 +72,16 @@ const ViewEdit = ({ open, handleClose, id, deletedata, lead, contact, setUserAct
         enableReinitialize: true,
         onSubmit: async (values) => {
             const eventData = {
-                title: values.title,
-                category: values.category,
+                subject: values.subject,
+                status: values.status,
                 description: values.description,
-                start: values.start,
-                end: values.end,
+                startDate: values.startDate,
+                endDate: values.endDate,
+                relatedTo: values.relatedTo,
                 assignTo: values.assignTo,
                 backgroundColor: values.backgroundColor,
                 textColor: values.textColor,
-                display: values.display,
-                url: values.url,
+                priority:values.priority,
                 note: values.note,
                 lead_id: values.lead_id,
                 contact_id: values.contact_id,
@@ -156,7 +147,7 @@ const ViewEdit = ({ open, handleClose, id, deletedata, lead, contact, setUserAct
                         // color: "white",
                     }}
                 >
-                    <Typography variant="h6">View and Edit Task </Typography>
+                    <Typography variant="h6">Edit Task </Typography>
                     <Typography>
                         <ClearIcon
                             onClick={handleClose}
@@ -177,85 +168,105 @@ const ViewEdit = ({ open, handleClose, id, deletedata, lead, contact, setUserAct
                                 columnSpacing={{ xs: 0, sm: 5, md: 4 }}
                             >
                                 <Grid item xs={12} sm={6} md={6}>
-                                    <FormLabel id="demo-row-radio-buttons-group-label">Title</FormLabel>
+                                    <FormLabel id="demo-row-radio-buttons-group-label">Subject</FormLabel>
                                     <TextField
-                                        id="title"
-                                        name="title"
+                                        id="subject"
+                                        name="subject"
                                         label=""
                                         fullWidth
                                         size="small"
-                                        value={formik.values.title}
+                                        value={formik.values.subject}
                                         onChange={formik.handleChange}
                                         error={
-                                            formik.touched.title &&
-                                            Boolean(formik.errors.title)
+                                            formik.touched.subject &&
+                                            Boolean(formik.errors.subject)
                                         }
                                         helperText={
-                                            formik.touched.title && formik.errors.title
+                                            formik.touched.subject && formik.errors.subject
                                         }
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6}>
-                                    <FormLabel id="demo-row-radio-buttons-group-label">Category</FormLabel>
+                                    <FormControl>
+                                        <FormLabel>Related To</FormLabel>
+                                        <RadioGroup
+                                            row
+                                            aria-labelledby="demo-row-radio-buttons-group-label"
+                                            name="relatedTo"
+                                            value={formik.values.relatedTo}
+                                            onChange={formik.handleChange}
+                                        >
+                                            <FormControlLabel value="Lead" control={<Radio />} label="Lead" />
+                                            <FormControlLabel value="Contact" control={<Radio />} label="Contact" />
+                                        </RadioGroup>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12} sm={4}>
+                                    <FormLabel>Status</FormLabel>
                                     <FormControl fullWidth>
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id=""
-                                            name="category"
+                                            name="status"
                                             label=""
                                             size="small"
-                                            value={formik.values.category || null}
+                                            value={formik.values.status || null}
                                             onChange={formik.handleChange}
-                                            error={formik.touched.category && Boolean(formik.errors.category)}
+                                            error={formik.touched.status && Boolean(formik.errors.status)}
                                         >
-                                            <MenuItem value="Selete category" disabled>Selete category</MenuItem>
-                                            <MenuItem value="Anniversary">Anniversary</MenuItem>
-                                            <MenuItem value="Meeting">Meeting</MenuItem>
-                                            <MenuItem value="Phone Call">Phone Call</MenuItem>
-                                            <MenuItem value="Task">Task</MenuItem>
-                                            <MenuItem value="Birthday">Birthday</MenuItem>
+                                            <MenuItem value="Note Started">Note Started</MenuItem>
+                                            <MenuItem value="In Progress">In Progress</MenuItem>
+                                            <MenuItem value="Completed">Completed</MenuItem>
+                                            <MenuItem value="Pending Input">Pending Input</MenuItem>
+                                            <MenuItem value="Deferred">Deferred</MenuItem>
                                         </Select>
                                         <FormHelperText
                                             error={
-                                                formik.touched.category && Boolean(formik.errors.category)
+                                                formik.touched.status && Boolean(formik.errors.status)
                                             }
                                         >
-                                            {formik.touched.category && formik.errors.category}
+                                            {formik.touched.status && formik.errors.status}
                                         </FormHelperText>
                                     </FormControl>
                                 </Grid>
-                                <Grid item xs={12} sm={6} md={6}>
-                                    <FormLabel id="demo-row-radio-buttons-group-label">Description</FormLabel>
-
-                                    <TextField
-                                        id="Description"
-                                        name="description"
-                                        label=""
-                                        fullWidth
-                                        size="small"
-                                        value={formik.values.description}
-                                        onChange={formik.handleChange}
-                                        error={
-                                            formik.touched.description &&
-                                            Boolean(formik.errors.description)
-                                        }
-                                        helperText={
-                                            formik.touched.description && formik.errors.description
-                                        }
-                                    />
+                                <Grid item xs={12} sm={4}>
+                                    <FormLabel>Priority</FormLabel>
+                                    <FormControl fullWidth>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id=""
+                                            name="priority"
+                                            label=""
+                                            size="small"
+                                            value={formik.values.priority || null}
+                                            onChange={formik.handleChange}
+                                            error={formik.touched.priority && Boolean(formik.errors.priority)}
+                                        >
+                                            <MenuItem value="High">High</MenuItem>
+                                            <MenuItem value="Medium">Medium</MenuItem>
+                                            <MenuItem value="Low">Low</MenuItem>
+                                        </Select>
+                                        <FormHelperText
+                                            error={
+                                                formik.touched.priority && Boolean(formik.errors.priority)
+                                            }
+                                        >
+                                            {formik.touched.priority && formik.errors.priority}
+                                        </FormHelperText>
+                                    </FormControl>
                                 </Grid>
-                                <Grid item xs={12} sm={6} md={6}>
+                                <Grid item xs={12} sm={6} md={4}>
                                     <FormLabel id="demo-row-radio-buttons-group-label">Assign To</FormLabel>
                                     <FormControl fullWidth>
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id=""
-                                            name="assignmentTo"
+                                            name="assignTo"
                                             label=""
                                             size="small"
                                             value={formik.values.assignTo}
                                             onChange={formik.handleChange}
-                                            error={formik.touched.assignmentTo && Boolean(formik.errors.assignTo)}
+                                            error={formik.touched.assignTo && Boolean(formik.errors.assignTo)}
                                         >
                                             {
                                                 user.role === 'admin' ?
@@ -285,111 +296,82 @@ const ViewEdit = ({ open, handleClose, id, deletedata, lead, contact, setUserAct
                                     </FormControl>
                                 </Grid>
                                 {
-                                    lead &&
-                                    <Grid item xs={12} sm={6} md={6}>
+                                    formik.values.relatedTo === "Lead" &&
+                                    <Grid item xs={12} sm={12} md={12}>
                                         <FormLabel id="demo-row-radio-buttons-group-label">Related To Lead</FormLabel>
                                         <FormControl fullWidth>
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id=""
-                                                name="lead_id"
-                                                label=""
-                                                size="small"
-                                                value={formik.values.lead_id}
-                                                onChange={formik.handleChange}
-                                                error={formik.touched.lead_id && Boolean(formik.errors.lead_id)}
-                                            >
-                                                {
-                                                    leadData.map((lead) => {
-                                                        return (
-                                                            <MenuItem key={lead._id} value={lead._id}>
-                                                                {`${lead.firstName} ${lead.lastName}`}
-                                                            </MenuItem>
-                                                        );
-                                                    })
-                                                }
-                                                {/* {
-                                                    formik.values.lead_id && <Link to={`dashboard/lead/view/${lead._id}`}> <VisibilityIcon /></Link>
-                                                } */}
-                                            </Select>
+                                            <Autocomplete
+                                                id="lead-autocomplete"
+                                                options={leadData}
+                                                getOptionLabel={(lead) => `${lead.firstName} ${lead.lastName}`}
+                                                value={leadData.find(lead => lead._id === formik.values.lead_id) || null}
+                                                onChange={(event, newValue) => {
+                                                    formik.setFieldValue("lead_id", newValue ? newValue._id : "");
+                                                }}
+                                                renderInput={(params) => (
+                                                    <TextField
+                                                        {...params}
+                                                        size="small"
+                                                        error={formik.touched.lead_id && Boolean(formik.errors.lead_id)}
+                                                        helperText={formik.touched.lead_id && formik.errors.lead_id}
+                                                    />
+                                                )}
+                                            />
+                                        </FormControl>
+                                    </Grid>
+                                }
+
+                                {
+                                    formik.values.relatedTo === "Contact" &&
+                                    <Grid item xs={12} sm={12} md={12}>
+                                        <FormLabel id="demo-row-radio-buttons-group-label">Related To Contact</FormLabel>
+                                        <FormControl fullWidth>
+                                            <Autocomplete
+                                                id="contact-autocomplete"
+                                                options={contactData}
+                                                getOptionLabel={(contact) => `${contact.firstName} ${contact.lastName}`}
+                                                value={contactData.find(contact => contact._id === formik.values.contact_id) || null}
+                                                onChange={(event, newValue) => {
+                                                    formik.setFieldValue("contact_id", newValue ? newValue._id : "");
+                                                }}
+                                                renderInput={(params) => (
+                                                    <TextField
+                                                        {...params}
+                                                        size="small"
+                                                        error={formik.touched.contact_id && Boolean(formik.errors.contact_id)}
+                                                        helperText={formik.touched.contact_id && formik.errors.contact_id}
+                                                    />
+                                                )}
+                                            />
 
                                         </FormControl>
                                     </Grid>
                                 }
-                                {
-                                    contact &&
-                                    <Grid item xs={12} sm={6} md={6}>
-                                        <FormLabel id="demo-row-radio-buttons-group-label">Related To Contact</FormLabel>
-                                        <FormControl fullWidth>
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id=""
-                                                name="contact_id"
-                                                label=""
-                                                size="small"
-                                                value={formik.values.contact_id}
-                                                onChange={formik.handleChange}
-                                                error={formik.touched.contact_id && Boolean(formik.errors.contact_id)}
-                                            >
-                                                <MenuItem selected disabled>Selecte</MenuItem>
-                                                {
-                                                    contactData.map((contact) => {
-                                                        return (
-                                                            <MenuItem key={contact._id} value={contact._id}>
-                                                                {`${contact.firstName} ${contact.lastName}`}
-                                                            </MenuItem>
-                                                        );
-                                                    })
-                                                }
-                                            </Select>
-                                        </FormControl>
-                                    </Grid>
-                                }
-                                <Grid item xs={12} sm={6} md={6}>
-                                    <FormGroup>
-                                        <FormControlLabel control={<Checkbox onChange={(e) => setChecked(e.target.checked)} checked={checked} />} label="all day ?" />
-                                    </FormGroup>
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={6} >
-                                    <FormControl>
-                                        <FormLabel>all Day</FormLabel>
-                                        <RadioGroup
-                                            row
-                                            aria-labelledby="demo-row-radio-buttons-group-label"
-                                            name="display"
-                                            value={formik.values.display}
-                                            onChange={formik.handleChange}
-                                        >
-                                            <FormControlLabel value="background" control={<Radio />} label="Yes" />
-                                            <FormControlLabel value="no" control={<Radio />} label="No" />
-                                        </RadioGroup>
-                                    </FormControl>
-                                </Grid>
 
                                 <Grid item xs={12} sm={6} md={6}>
                                     <FormLabel>Start Date</FormLabel>
                                     <TextField
-                                        name='start'
-                                        type={checked ? 'date' : 'datetime-local'}
+                                        name='startDate'
+                                        type={'datetime-local'}
                                         size='small'
                                         fullWidth
-                                        value={checked ? dayjs(formik.values.start).format('YYYY-MM-DD') : dayjs(formik.values.start).format('YYYY-MM-DD HH:mm:ss')}
+                                        value={dayjs(formik.values.startDate).format('YYYY-MM-DD hh:mm:ss')}
                                         onChange={formik.handleChange}
-                                        error={formik.touched.start && Boolean(formik.errors.start)}
-                                        helperText={formik.touched.start && formik.errors.start}
+                                        error={formik.touched.startDate && Boolean(formik.errors.startDate)}
+                                        helperText={formik.touched.startDate && formik.errors.startDate}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6}>
                                     <FormLabel>End Date</FormLabel>
                                     <TextField
-                                        name='end'
-                                        type={checked ? 'date' : 'datetime-local'}
+                                        name='endDate'
+                                        type={'datetime-local'}
                                         size='small'
                                         fullWidth
-                                        value={checked ? dayjs(formik.values.end).format('YYYY-MM-DD') : dayjs(formik.values.end).format('YYYY-MM-DD HH:mm:ss')}
+                                        value={dayjs(formik.values.endDate).format('YYYY-MM-DD hh:mm:ss')}
                                         onChange={formik.handleChange}
-                                        error={formik.touched.end && Boolean(formik.errors.end)}
-                                        helperText={formik.touched.end && formik.errors.end}
+                                        error={formik.touched.endDate && Boolean(formik.errors.endDate)}
+                                        helperText={formik.touched.endDate && formik.errors.endDate}
                                     />
                                 </Grid>
 
@@ -415,7 +397,6 @@ const ViewEdit = ({ open, handleClose, id, deletedata, lead, contact, setUserAct
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6}>
                                     <FormLabel id="demo-row-radio-buttons-group-label">Text Color</FormLabel>
-
                                     <TextField
                                         id=""
                                         name="textColor"
@@ -435,28 +416,7 @@ const ViewEdit = ({ open, handleClose, id, deletedata, lead, contact, setUserAct
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={12}>
-                                    <FormLabel id="demo-row-radio-buttons-group-label">URL</FormLabel>
-
-                                    <TextField
-                                        id="url"
-                                        name="url"
-                                        label=""
-                                        size="small"
-                                        fullWidth
-                                        value={formik.values.url}
-                                        onChange={formik.handleChange}
-                                        error={
-                                            formik.touched.url &&
-                                            Boolean(formik.errors.url)
-                                        }
-                                        helperText={
-                                            formik.touched.url && formik.errors.url
-                                        }
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={12}>
                                     <FormLabel id="demo-row-radio-buttons-group-label">Note</FormLabel>
-
                                     <TextField
                                         id="Note"
                                         name="note"
@@ -489,7 +449,7 @@ const ViewEdit = ({ open, handleClose, id, deletedata, lead, contact, setUserAct
                     >
                         Update
                     </Button>
-                    <Button
+                    {/* <Button
                         type="submit"
                         variant="contained"
                         onClick={deletedata}
@@ -497,7 +457,7 @@ const ViewEdit = ({ open, handleClose, id, deletedata, lead, contact, setUserAct
                         color="error"
                     >
                         Delete
-                    </Button>
+                    </Button> */}
                     <Button
                         type="reset"
                         variant="outlined"

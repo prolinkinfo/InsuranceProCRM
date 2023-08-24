@@ -4,11 +4,9 @@ import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
 import { Link, useNavigate } from 'react-router-dom';
+import Jwt from 'jwt-decode';
+import { toast } from 'react-toastify';
 import account from '../../../_mock/account';
-
-// ----------------------------------------------------------------------
-
-
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
@@ -27,10 +25,6 @@ export default function AccountPopover() {
       icon: 'eva:person-fill',
       path: `/dashboard/user/view/${user._id}`
     },
-    // {
-    //   label: 'Settings',
-    //   icon: 'eva:settings-2-fill',
-    // },
   ];
 
 
@@ -53,6 +47,22 @@ export default function AccountPopover() {
     }
   }
 
+  // const checkTokenExpiration = () => {
+    const token = localStorage.getItem('token'); // Retrieve the token from local storage (or session)
+    if (token) {
+      try {
+        const decodedToken = Jwt(token);
+        const currentTime = Date.now() / 1000; // Convert milliseconds to seconds
+        if (decodedToken.exp < currentTime) {
+          logout();
+          toast.error("Token has expired")
+        }
+      }
+      catch (error) {
+        console.error('Error decoding token:', error);
+      }
+    }
+  // };
 
   return (
     <>

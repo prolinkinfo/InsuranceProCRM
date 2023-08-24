@@ -21,13 +21,13 @@ const Meetings = ({ rows, style, toggleVisibilityMeeting, isVisibleMeetings, _id
 
   const columns = [
     {
-      field: "meetingAgenda",
-      headerName: "Meeting Agenda",
+      field: "subject",
+      headerName: "Subject",
       flex: 1,
       cellClassName: "name-column--cell",
       renderCell: (params) => {
         const handleFirstNameClick = () => {
-          navigate(`/dashboard/history/meeting/view/${params.row._id}`)
+          navigate(`/dashboard/meeting/view/${params.row._id}`)
         };
 
         return (
@@ -38,13 +38,8 @@ const Meetings = ({ rows, style, toggleVisibilityMeeting, isVisibleMeetings, _id
       }
     },
     {
-      field: "meetingAttendes",
-      headerName: "Meeting Attendes",
-      flex: 1,
-    },
-    {
-      field: "meetingDateTime",
-      headerName: "Meeting Date/Time",
+      field: "startDate",
+      headerName: "Start Date",
       flex: 1,
       valueFormatter: (params) => {
         const date = new Date(params.value);
@@ -52,8 +47,22 @@ const Meetings = ({ rows, style, toggleVisibilityMeeting, isVisibleMeetings, _id
       },
     },
     {
-      field: "meetingLocation",
-      headerName: "Meeting Location",
+      field: "endDate",
+      headerName: "End Date",
+      flex: 1,
+      valueFormatter: (params) => {
+        const date = new Date(params.value);
+        return date.toLocaleString();
+      },
+    },
+    {
+      field: "duration",
+      headerName: "Duration",
+      flex: 1,
+    },
+    {
+      field: "status",
+      headerName: "Status",
       flex: 1,
     }
   ];
@@ -63,7 +72,7 @@ const Meetings = ({ rows, style, toggleVisibilityMeeting, isVisibleMeetings, _id
       {/* Add Meeting */}
       <Addmeetings open={openMeeting} handleClose={handleCloseMeeting} _id={_id} data={data} setUserAction={setUserAction} />
 
-      <Box style={{ cursor: "pointer" }} p={1}>
+      <Box style={{ cursor: "pointer" }} p={2}>
         <Grid container display="flex" alignItems="center">
           <Stack direction="row" alignItems="center" justifyContent={"space-between"} width={"100%"}>
             <Stack direction="row" spacing={1} alignItems={"center"}>

@@ -75,7 +75,7 @@ const Policy = ({ rows, toggleVisibilityPolicy, isVisiblePolicy, _id, setUserAct
       {/* Add Claim */}
       <AddPolicy open={openAdd} handleClose={handleCloseAdd} _id={_id} setUserAction={setUserAction} />
 
-      <Box style={{ cursor: "pointer" }} p={1}>
+      <Box style={{ cursor: "pointer" }} p={2}>
         <Grid container display="flex" alignItems="center">
           <Stack direction="row" alignItems="center" justifyContent={"space-between"} width={"100%"}>
             <Stack direction="row" spacing={1} alignItems={"center"}>

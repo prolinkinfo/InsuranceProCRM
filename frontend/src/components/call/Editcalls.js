@@ -14,7 +14,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useEffect, useState } from "react";
-import { FormControl, FormHelperText, FormLabel, Select } from "@mui/material";
+import { Autocomplete, FormControl, FormHelperText, FormLabel, Select } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import { useParams } from "react-router-dom";
 import { apiget, apiput } from "../../service/api";
@@ -23,26 +23,34 @@ const Editcalls = (props) => {
     const { handleClose, open, id, fetchcalls } = props
 
     const [callDetails, setCallDetails] = useState({});
+    const [leadData, setLeadData] = useState([])
+    const [contactData, setContactData] = useState([])
+
+    const userRole = localStorage.getItem("userRole");
+    const userid = localStorage.getItem('user_id')
+
     const params = useParams();
 
     // -----------  validationSchema
     const validationSchema = yup.object({
-        callType: yup.string().required("Call Type is required"),
-        callDuration: yup.string().required("Call Duration is required"),
-        callOutcome: yup.string().required("Call Outcome is required"),
-        callDateTime: yup.string().required("Call DateTime is required"),
-        callerName: yup.string().required("Caller Name is required"),
-        callNotes: yup.string().required("Call Notes is required"),
+        subject: yup.string().required("Subject is required"),
+        status: yup.string().required("Status is required"),
+        startDateTime: yup.string().required("Start Date & Time is required"),
+        duration: yup.string().required("Duration is required"),
+        relatedTo: yup.string().required("Related To is required"),
+        note: yup.string().required("Note is required"),
     });
 
     // -----------   initialValues
     const initialValues = {
-        callType: callDetails?.callType,
-        callDuration: callDetails?.callDuration,
-        callOutcome: callDetails?.callOutcome,
-        callDateTime: callDetails?.callDateTime,
-        callerName: callDetails?.callerName,
-        callNotes: callDetails?.callNotes,
+        subject: callDetails.subject,
+        status: callDetails.status,
+        startDateTime: callDetails.startDateTime,
+        duration: callDetails.duration,
+        relatedTo: callDetails.relatedTo,
+        note: callDetails.note,
+        lead_id: callDetails?.lead_id?._id,
+        contact_id: callDetails?.contact_id?._id,
         modifiedOn: ""
 
     };
@@ -52,6 +60,22 @@ const Editcalls = (props) => {
         const result = await apiget(`call/view/${params.id}`)
         if (result && result.status === 200) {
             setCallDetails(result?.data?.calls)
+        }
+    }
+
+    // lead api
+    const fetchLeadData = async () => {
+        const result = await apiget(userRole === 'admin' ? `lead/list` : `lead/list/?createdBy=${userid}`)
+        if (result && result.status === 200) {
+            setLeadData(result?.data?.result)
+        }
+    }
+
+    // contact api
+    const fetchContactData = async () => {
+        const result = await apiget(userRole === 'admin' ? `contact/list` : `contact/list/?createdBy=${userid}`)
+        if (result && result.status === 200) {
+            setContactData(result?.data?.result)
         }
     }
 
@@ -71,12 +95,14 @@ const Editcalls = (props) => {
         enableReinitialize: true,
         onSubmit: async (values) => {
             const callData = {
-                callType: values.callType,
-                callDuration: values.callDuration,
-                callOutcome: values.callOutcome,
-                callDateTime: values.callDateTime,
-                callerName: values.callerName,
-                callNotes: values.callNotes,
+                subject: values.subject,
+                status: values.status,
+                startDateTime: values.startDateTime,
+                duration: values.duration,
+                relatedTo: values.relatedTo,
+                note: values.note,
+                lead_id: values.lead_id,
+                contact_id: values.contact_id,
                 modifiedOn: new Date()
             }
             EditCall(callData)
@@ -85,6 +111,8 @@ const Editcalls = (props) => {
 
     useEffect(() => {
         fetchdata();
+        fetchLeadData();
+        fetchContactData();
     }, [])
 
     return (
@@ -124,127 +152,183 @@ const Editcalls = (props) => {
                                 columnSpacing={{ xs: 0, sm: 5, md: 4 }}
                             >
                                 <Grid item xs={12} sm={6} md={6}>
-                                    <FormControl fullWidth>
-                                        <FormLabel>Call Type</FormLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="callType"
-                                            name="callType"
-                                            size="small"
-                                            value={formik.values.callType}
-                                            onChange={formik.handleChange}
-                                            error={formik.touched.callType && Boolean(formik.errors.callType)}
-                                        >
-                                            <MenuItem value="Incoming">Incoming</MenuItem>
-                                            <MenuItem value="Outgoing">Outgoing</MenuItem>
-                                        </Select>
-                                        <FormHelperText
-                                            error={
-                                                formik.touched.callType && Boolean(formik.errors.callType)
-                                            }
-                                        >
-                                            {formik.touched.callType && formik.errors.callType}
-                                        </FormHelperText>
-                                    </FormControl>
+                                    <FormLabel>Subject</FormLabel>
+                                    <TextField
+                                        id="subject"
+                                        name="subject"
+                                        size="small"
+                                        fullWidth
+                                        value={formik.values.subject}
+                                        onChange={formik.handleChange}
+                                        error={
+                                            formik.touched.subject &&
+                                            Boolean(formik.errors.subject)
+                                        }
+                                        helperText={
+                                            formik.touched.subject && formik.errors.subject
+                                        }
+                                    />
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6}>
                                     <FormControl fullWidth>
-                                        <FormLabel>Call Duration</FormLabel>
+                                        <FormLabel>Status</FormLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
-                                            id="callDuration"
-                                            name="callDuration"
+                                            id="status"
+                                            name="status"
                                             size="small"
-                                            value={formik.values.callDuration}
+                                            value={formik.values.status}
                                             onChange={formik.handleChange}
-                                            error={formik.touched.callDuration && Boolean(formik.errors.callDuration)}
+                                            error={formik.touched.status && Boolean(formik.errors.status)}
                                         >
-                                            <MenuItem value="15 mini">15 mini</MenuItem>
-                                            <MenuItem value="30 mini">30 mini</MenuItem>
+                                            <MenuItem value="Planned">Planned</MenuItem>
+                                            <MenuItem value="Held">Held</MenuItem>
+                                            <MenuItem value="Not Held">Not Held</MenuItem>
                                         </Select>
                                         <FormHelperText
                                             error={
-                                                formik.touched.callDuration && Boolean(formik.errors.callDuration)
+                                                formik.touched.status && Boolean(formik.errors.status)
                                             }
                                         >
-                                            {formik.touched.callDuration && formik.errors.callDuration}
+                                            {formik.touched.status && formik.errors.status}
                                         </FormHelperText>
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <FormLabel>Call DateTime</FormLabel>
+                                    <FormLabel>Start Date & Time</FormLabel>
                                     <TextField
-                                        id="callDateTime"
-                                        name="callDateTime"
+                                        id="startDateTime"
+                                        name="startDateTime"
                                         size="small"
                                         type="datetime-local"
                                         fullWidth
-                                        value={formik.values.callDateTime}
+                                        value={formik.values.startDateTime}
                                         onChange={formik.handleChange}
                                         error={
-                                            formik.touched.callDateTime &&
-                                            Boolean(formik.errors.callDateTime)
+                                            formik.touched.startDateTime &&
+                                            Boolean(formik.errors.startDateTime)
                                         }
                                         helperText={
-                                            formik.touched.callDateTime && formik.errors.callDateTime
+                                            formik.touched.startDateTime && formik.errors.startDateTime
                                         }
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <FormLabel>Caller Name</FormLabel>
-                                    <TextField
-                                        id="callerName"
-                                        name="callerName"
-                                        size="small"
-                                        fullWidth
-                                        value={formik.values.callerName}
-                                        onChange={formik.handleChange}
-                                        error={
-                                            formik.touched.callerName &&
-                                            Boolean(formik.errors.callerName)
-                                        }
-                                        helperText={
-                                            formik.touched.callerName && formik.errors.callerName
-                                        }
-                                    />
+                                    <FormControl fullWidth>
+                                        <FormLabel>Duration</FormLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="duration"
+                                            name="duration"
+                                            size="small"
+                                            value={formik.values.duration}
+                                            onChange={formik.handleChange}
+                                            error={formik.touched.duration && Boolean(formik.errors.duration)}
+                                        >
+                                            <MenuItem value="15 minutes">15 minutes</MenuItem>
+                                            <MenuItem value="30 minutes">30 minutes</MenuItem>
+                                            <MenuItem value="45 minutes">45 minutes</MenuItem>
+                                            <MenuItem value="1 hour">1 hour</MenuItem>
+                                            <MenuItem value="1.5 hours">1.5 hours</MenuItem>
+                                            <MenuItem value="2 hours">2 hours</MenuItem>
+                                            <MenuItem value="3 hours">3 hours</MenuItem>
+                                        </Select>
+                                        <FormHelperText
+                                            error={
+                                                formik.touched.duration && Boolean(formik.errors.duration)
+                                            }
+                                        >
+                                            {formik.touched.duration && formik.errors.duration}
+                                        </FormHelperText>
+                                    </FormControl>
                                 </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <FormControl fullWidth>
+                                        <FormLabel>Related To</FormLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="relatedTo"
+                                            name="relatedTo"
+                                            size="small"
+                                            value={formik.values.relatedTo}
+                                            onChange={formik.handleChange}
+                                            error={formik.touched.relatedTo && Boolean(formik.errors.relatedTo)}
+                                        >
+                                            <MenuItem value="Lead">Lead</MenuItem>
+                                            <MenuItem value="Contact">Contact</MenuItem>
+                                        </Select>
+                                        <FormHelperText
+                                            error={
+                                                formik.touched.relatedTo && Boolean(formik.errors.relatedTo)
+                                            }
+                                        >
+                                            {formik.touched.relatedTo && formik.errors.relatedTo}
+                                        </FormHelperText>
+                                    </FormControl>
+                                </Grid>
+                                {
+                                    formik.values.relatedTo === "Lead" &&
+                                    <Grid item xs={12} sm={6}>
+                                        <FormLabel>Lead</FormLabel>
+                                        <Autocomplete
+                                            id="lead-autocomplete"
+                                            options={leadData}
+                                            getOptionLabel={(lead) => `${lead.firstName} ${lead.lastName}`}
+                                            value={leadData.find(lead => lead._id === formik.values.lead_id) || null}
+                                            onChange={(event, newValue) => {
+                                                formik.setFieldValue("lead_id", newValue ? newValue._id : "");
+                                            }}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    size="small"
+                                                    error={formik.touched.lead_id && Boolean(formik.errors.lead_id)}
+                                                    helperText={formik.touched.lead_id && formik.errors.lead_id}
+                                                />
+                                            )}
+                                        />
+                                    </Grid>
+                                }
+                                {
+                                    formik.values.relatedTo === "Contact" &&
+                                    <Grid item xs={12} sm={6}>
+                                        <FormLabel>Contact</FormLabel>
+                                        <Autocomplete
+                                            id="contact-autocomplete"
+                                            options={contactData}
+                                            getOptionLabel={(contact) => `${contact.firstName} ${contact.lastName}`}
+                                            value={contactData.find(contact => contact._id === formik.values.contact_id) || null}
+                                            onChange={(event, newValue) => {
+                                                formik.setFieldValue("contact_id", newValue ? newValue._id : "");
+                                            }}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    size="small"
+                                                    error={formik.touched.contact_id && Boolean(formik.errors.contact_id)}
+                                                    helperText={formik.touched.contact_id && formik.errors.contact_id}
+                                                />
+                                            )}
+                                        />
+                                    </Grid>
+                                }
                                 <Grid item xs={12} sm={12}>
-                                    <FormLabel>Call Outcome</FormLabel>
+                                    <FormLabel>Note</FormLabel>
                                     <TextField
-                                        id="callOutcome"
-                                        name="callOutcome"
+                                        id="note"
+                                        name="note"
                                         size="small"
                                         fullWidth
                                         rows={4}
                                         multiline
-                                        value={formik.values.callOutcome}
+                                        value={formik.values.note}
                                         onChange={formik.handleChange}
                                         error={
-                                            formik.touched.callOutcome &&
-                                            Boolean(formik.errors.callOutcome)
+                                            formik.touched.note &&
+                                            Boolean(formik.errors.note)
                                         }
                                         helperText={
-                                            formik.touched.callOutcome && formik.errors.callOutcome
-                                        }
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={12}>
-                                    <FormLabel>Call Notes</FormLabel>
-                                    <TextField
-                                        id="callNotes"
-                                        name="callNotes"
-                                        size="small"
-                                        fullWidth
-                                        rows={4}
-                                        multiline
-                                        value={formik.values.callNotes}
-                                        onChange={formik.handleChange}
-                                        error={
-                                            formik.touched.callNotes &&
-                                            Boolean(formik.errors.callNotes)
-                                        }
-                                        helperText={
-                                            formik.touched.callNotes && formik.errors.callNotes
+                                            formik.touched.note && formik.errors.note
                                         }
                                     />
                                 </Grid>

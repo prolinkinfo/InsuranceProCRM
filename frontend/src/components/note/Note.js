@@ -72,7 +72,7 @@ const Notes = ({ rows, toggleVisibilityNotes, isVisibleNotes, _id, setUserAction
             {/* Add Notes */}
             <Addnotes open={openNote} handleClose={handleCloseNote} _id={_id} setUserAction={setUserAction} method={method} />
 
-            <Box p={1} style={{ cursor: "pointer" }}>
+            <Box p={2} style={{ cursor: "pointer" }}>
                 <Grid container display="flex" alignItems="center">
                     <Stack direction="row" alignItems="center" justifyContent={"space-between"} width={"100%"}>
                         <Stack direction="row" spacing={1} alignItems={"center"}>

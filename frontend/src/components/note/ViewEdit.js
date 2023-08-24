@@ -99,7 +99,7 @@ const ViewNote = (props) => {
                         // color: "white",
                     }}
                 >
-                    <Typography variant="h6">View and Update </Typography>
+                    <Typography variant="h6">View & Update Note</Typography>
                     <Typography>
                         <ClearIcon
                             onClick={handleClose}
