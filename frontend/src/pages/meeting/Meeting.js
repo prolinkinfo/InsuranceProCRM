@@ -141,6 +141,8 @@ const Meeting = () => {
   const fetchdata = async () => {
     const result = await apiget(userRole === "admin" ? `meeting/list` : `meeting/list/?createdBy=${userid}`)
     
+    console.log(result)
+
     if (result && result.status === 200) {
       setAllMeeting(result?.data?.result)
     }
@@ -151,7 +153,6 @@ const Meeting = () => {
 
   return (
     <>
-
       {/* Add Meeting */}
       <AddMeeting open={openMeeting} handleClose={handleCloseMeeting} setUserAction={setUserAction}/>
 

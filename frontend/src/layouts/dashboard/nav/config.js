@@ -57,11 +57,11 @@ const navConfig = [
     path: '/dashboard/document',
     icon: icon('ic_document'),
   },
-  // {
-  //   title: 'Email Template',
-  //   path: '/dashboard/emailtemplate',
-  //   icon: icon('ic_emailTemplate'),
-  // },
+  {
+    title: 'Email Template',
+    path: '/dashboard/emailtemplate',
+    icon: icon('ic_emailTemplate'),
+  },
   {
     title: 'User Management',
     path: '/dashboard/user',

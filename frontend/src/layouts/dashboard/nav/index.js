@@ -56,7 +56,7 @@ const navigate = useNavigate()
       }}
     >
       <Box sx={{ px: 2.5, py: 3, display: 'inline-flex', cursor: "pointer" }} onClick={home}>
-        <img src="/assets/logo prolink.png" width={150} style={{ marginLeft: "-14px" }} />
+        <img src="/assets/logo prolink.png" width={150}  />
       </Box>
 
       {/* <Box sx={{ mb: 5, mx: 2.5 }}> */}
