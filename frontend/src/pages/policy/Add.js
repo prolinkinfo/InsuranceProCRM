@@ -553,7 +553,7 @@ const Add = (props) => {
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={6}>
                                     <FormControl fullWidth>
-                                        <FormLabel>Frequency of premium payments</FormLabel>
+                                        <FormLabel>Premium Payments</FormLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id="FrequencyOfPremiumPayments"
