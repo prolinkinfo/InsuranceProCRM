@@ -21,7 +21,7 @@ const Tasks = ({ rows, toggleVisibilityTask, isVisibleTask, _id, setUserAction, 
             field: "subject",
             headerName: "Subject",
             flex: 1,
-            cellClassName: "name-column--cell",
+            cellClassName: "name-column--cell name-column--cell--capitalize",
             renderCell: (params) => {
                 const handleFirstNameClick = () => {
                     navigate(`/dashboard/task/view/${params.row._id}`)

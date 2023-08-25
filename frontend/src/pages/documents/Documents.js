@@ -89,6 +89,7 @@ const Documents = () => {
             field: "fileName",
             headerName: "File Name",
             flex: 1,
+            
         },
         {
             field: "createdOn",

@@ -62,7 +62,7 @@ const Meeting = () => {
       field: "subject",
       headerName: "Subject",
       flex: 1,
-      cellClassName: "name-column--cell",
+      cellClassName: "name-column--cell name-column--cell--capitalize",
       renderCell: (params) => {
         const handleFirstNameClick = () => {
           navigate(`/dashboard/meeting/view/${params.row._id}`)
@@ -106,7 +106,7 @@ const Meeting = () => {
     {
       field: allMeeting.relatedTo === "Lead" ? "lead_id" : "contact_id",
       headerName: "Related To",
-      cellClassName: "name-column--cell",
+      cellClassName: "name-column--cell name-column--cell--capitalize",
       flex: 1,
       renderCell: (params) => {
         const handleFirstNameClick = () => {
@@ -123,7 +123,7 @@ const Meeting = () => {
     {
       field: "createdBy",
       headerName: "Assigned User",
-      cellClassName: "name-column--cell",
+      cellClassName: "name-column--cell name-column--cell--capitalize",
       flex: 1,
       renderCell: (params) => {
         const handleFirstNameClick = () => {

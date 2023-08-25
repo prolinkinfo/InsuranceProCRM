@@ -10,9 +10,11 @@ const TableStyleTwo = styled('div')({
   "& .MuiDataGrid-cell": {
     borderBottom: "none",
   },
+  "& .name-column--cell--capitalize": {
+      textTransform: "capitalize"
+  },
   "& .name-column--cell": {
     color: Palette.primary.main,
-    textDecoration: "underline",
   },
   "& .name-column--cell:hover": {
     textDecoration: "underline",

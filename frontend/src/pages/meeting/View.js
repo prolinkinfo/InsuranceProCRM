@@ -74,7 +74,7 @@ const View = () => {
 
             <Container>
                 <Grid container display="flex" alignItems="center">
-                    <Stack direction="row" alignItems="center" mb={5} justifyContent={"space-between"} width={"100%"}>
+                    <Stack direction="row" alignItems="center" mb={3} justifyContent={"space-between"} width={"100%"}>
                         <Header
                             title="Call Details"
                         />

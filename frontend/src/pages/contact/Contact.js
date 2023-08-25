@@ -84,7 +84,7 @@ const Contact = () => {
             field: "firstName",
             headerName: "Frist Name",
             flex: 1,
-            cellClassName: "name-column--cell",
+            cellClassName: "name-column--cell name-column--cell--capitalize",
             renderCell: (params) => {
                 const handleFirstNameClick = () => {
                     navigate(`/dashboard/contact/view/${params.id}`)
@@ -101,6 +101,7 @@ const Contact = () => {
             field: "lastName",
             headerName: "Last Name",
             flex: 1,
+            cellClassName:"name-column--cell--capitalize"
         },
         {
             field: "gender",
@@ -118,7 +119,6 @@ const Contact = () => {
             flex: 1,
         },
         {
-
             field: "action",
             headerName: "Action",
             flex: 1,

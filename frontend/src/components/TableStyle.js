@@ -11,6 +11,10 @@ const TableStyle = styled('div')({
   "& .name-column--cell": {
     color: Palette.primary.main,
     cursor: "pointer",
+
+  },
+  "& .name-column--cell--capitalize": {
+    textTransform: "capitalize",
   },
   "& .name-column--cell:hover": {
     textDecoration: "underline",

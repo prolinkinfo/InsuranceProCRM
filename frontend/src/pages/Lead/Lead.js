@@ -75,7 +75,7 @@ const Lead = () => {
       field: "firstName",
       headerName: "Frist Name",
       flex: 1,
-      cellClassName: "name-column--cell",
+      cellClassName: "name-column--cell name-column--cell--capitalize",
       renderCell: (params) => {
         const handleFirstNameClick = () => {
           navigate(`/dashboard/lead/view/${params.row._id}`)
@@ -92,6 +92,7 @@ const Lead = () => {
       field: "lastName",
       headerName: "Last Name",
       flex: 1,
+      cellClassName:"name-column--cell--capitalize",
     },
     {
       field: "gender",

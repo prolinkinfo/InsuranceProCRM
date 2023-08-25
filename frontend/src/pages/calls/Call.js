@@ -61,7 +61,7 @@ const Call = () => {
       field: "subject",
       headerName: "Subject",
       flex: 1,
-      cellClassName: "name-column--cell",
+      cellClassName: "name-column--cell name-column--cell--capitalize",
       renderCell: (params) => {
         const handleFirstNameClick = () => {
           navigate(`/dashboard/call/view/${params.row._id}`)
@@ -89,7 +89,7 @@ const Call = () => {
     {
       field: allCall.relatedTo === "Lead" ? "lead_id" : "contact_id",
       headerName: "Related To",
-      cellClassName: "name-column--cell",
+      cellClassName: "name-column--cell name-column--cell--capitalize",
       flex: 1,
       renderCell: (params) => {
         const handleFirstNameClick = () => {
@@ -106,7 +106,7 @@ const Call = () => {
     {
       field: "createdBy",
       headerName: "Assigned User",
-      cellClassName: "name-column--cell",
+      cellClassName: "name-column--cell name-column--cell--capitalize",
       flex: 1,
       renderCell: (params) => {
         const handleFirstNameClick = () => {

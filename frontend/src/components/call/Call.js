@@ -21,7 +21,7 @@ const Call = ({ rows, toggleVisibilityCall, isVisibleCall, _id, setUserAction })
         {
             field: "subject",
             headerName: "Subject ",
-            cellClassName: "name-column--cell",
+            cellClassName: "name-column--cell name-column--cell--capitalize",
             flex: 1,
             renderCell: (params) => {
                 const handleFirstNameClick = () => {

@@ -25,7 +25,7 @@ const User = () => {
             field: "firstName",
             headerName: "First Name",
             flex: 2,
-            cellClassName: "name-column--cell",
+            cellClassName: "name-column--cell name-column--cell--capitalize",
             renderCell: (params) => {
                 const handleFirstNameClick = () => {
                     navigate(`/dashboard/user/view/${params.row._id}`)
@@ -41,6 +41,7 @@ const User = () => {
         {
             field: "lastName",
             headerName: "Last Name",
+            cellClassName:"name-column--cell--capitalize",
             flex: 2,
 
         },
@@ -52,6 +53,7 @@ const User = () => {
         {
             field: "role",
             headerName: "Role",
+            cellClassName:"name-column--cell--capitalize",
             flex: 2
         }
     ];

@@ -45,6 +45,7 @@ const PolicyDocumentPage = ({ rows, toggleVisibilityPolicyDoc, isVisiblePolicyDo
             field: "fileName",
             headerName: "File Name",
             flex: 1,
+            cellClassName: "name-column--cell--capitalize" 
         },
         {
             field: "createdOn",

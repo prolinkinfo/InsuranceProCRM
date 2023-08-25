@@ -22,7 +22,7 @@ const Lead = ({ rows, toggleVisibilityLead, isVisibleLead, _id, setUserAction })
       field: "firstName",
       headerName: "Frist Name",
       flex: 1,
-      cellClassName: "name-column--cell",
+      cellClassName: "name-column--cell name-column--cell--capitalize",
       renderCell: (params) => {
         const handleFirstNameClick = () => {
           navigate(`/dashboard/lead/view/${params.row._id}`);
@@ -30,7 +30,7 @@ const Lead = ({ rows, toggleVisibilityLead, isVisibleLead, _id, setUserAction })
         return <Box onClick={handleFirstNameClick}>{params.value}</Box>;
       },
     },
-    { field: "lastName", headerName: "Last Name", flex: 1 },
+    { field: "lastName", headerName: "Last Name", flex: 1, cellClassName: "name-column--cell--capitalize" },
     { field: "gender", headerName: "Gender", flex: 1 },
     { field: "phoneNumber", headerName: "Phone Number", flex: 1 },
     { field: "emailAddress", headerName: "Email Address", flex: 1 },

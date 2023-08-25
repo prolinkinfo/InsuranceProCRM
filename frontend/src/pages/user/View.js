@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Card, Container, Grid, Stack, Typography } from '@mui/material';
+import { Box, Card, Container, Grid, Stack, Tab, Tabs, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment/moment'
@@ -10,6 +10,9 @@ import AddUser from './Add'
 import EditUser from './Edit'
 import DeleteModel from '../../components/Deletemodle'
 import Palette from '../../theme/palette'
+import { CustomTabPanel, a11yProps } from '../../components/CustomTabPanel';
+import Overview from './Overview';
+import Other from './Other';
 
 const View = () => {
 
@@ -17,6 +20,7 @@ const View = () => {
     const [openAdd, setOpenAdd] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [opendelete, setOpendelete] = useState(false);
+    const [value, setValue] = useState(0);
     const navigate = useNavigate()
     const params = useParams()
 
@@ -34,6 +38,8 @@ const View = () => {
     const handleOpenDelete = () => setOpendelete(true);
     const handleCloseDelete = () => setOpendelete(false);
 
+    // tab
+    const handleChange = (event, newValue) => setValue(newValue);
 
     const back = () => {
         navigate('/dashboard/user')
@@ -72,7 +78,7 @@ const View = () => {
 
             <Container>
                 <Grid container display="flex" alignItems="center">
-                    <Stack direction="row" alignItems="center" mb={5} justifyContent={"space-between"} width={"100%"}>
+                    <Stack direction="row" alignItems="center" mb={3} justifyContent={"space-between"} width={"100%"}>
                         <Header
                             title={`${userDetails?.firstName} ${userDetails?.lastName}`}
                             subtitle="Profile Details"
@@ -93,54 +99,24 @@ const View = () => {
                                     back={back}
                                 />
                             }
-
-
                         </Stack>
                     </Stack>
                 </Grid>
 
-                {/* OVERVIEW  */}
-                <Card>
-                    <Box style={{ cursor: "pointer" }} p={1}>
-                        <Typography variant="h5">OVERVIEW</Typography>
+                <Box sx={{ width: '100%' }}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: "0px" }}>
+                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                            <Tab label="OVERVIEW" {...a11yProps(0)} />
+                            <Tab label="OTHER" {...a11yProps(1)} />
+                        </Tabs>
                     </Box>
-                    <Box mt="0px" style={{ borderTop: "1px solid", borderTopColor: Palette.grey[400] }} p={3}>
-                        <Grid container display="flex" spacing={4}>
-                            <Grid item xs={12} sm={6}>
-                                <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400] }} pb={2}>
-                                    <Typography variant="body1">First Name :</Typography>
-                                    <Typography variant="body2" color={Palette.grey[600]} style={{textTransform:"capitalize"}}>{userDetails?.firstName ? userDetails?.firstName : "---"}</Typography>
-                                </Grid>
-                                <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400] }} py={2}>
-                                    <Typography variant="body1">Email :</Typography>
-                                    <Typography variant="body2" color={Palette.grey[600]}>{userDetails?.emailAddress ? userDetails?.emailAddress : "---"}</Typography>
-                                </Grid>
-                                <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400] }} py={2}>
-                                    <Typography variant="body1">CreatedOn :</Typography>
-                                    <Typography variant="body2" color={Palette.grey[600]}>
-                                        {moment(userDetails?.createdOn).format('lll')}
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400] }} pb={2}>
-                                    <Typography variant="body1">Last Name :</Typography>
-                                    <Typography variant="body2" color={Palette.grey[600]} style={{textTransform:"capitalize"}}>{userDetails?.lastName ? userDetails?.lastName : "---"}</Typography>
-                                </Grid>
-                                <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400] }} py={2}>
-                                    <Typography variant="body1">Role :</Typography>
-                                    <Typography variant="body2" color={Palette.grey[600]} style={{textTransform:"capitalize"}}>{userDetails?.role ? userDetails?.role : "---"}</Typography>
-                                </Grid>
-                                <Grid style={{ borderBottom: "1.5px dashed", borderBottomColor: Palette.grey[400] }} py={2}>
-                                    <Typography variant="body1">ModifiedOn :</Typography>
-                                    <Typography variant="body2" color={Palette.grey[600]}>
-                                        {moment(userDetails?.modifiedOn).format('lll')}
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Card>
+                    <CustomTabPanel value={value} index={0}>
+                        <Overview data={userDetails}/>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={1}>
+                        <Other data={userDetails} />
+                    </CustomTabPanel>
+                </Box>
             </Container>
         </div>
     )
