@@ -56,7 +56,12 @@ const UserConfig = [
     title: 'Document Management',
     path: '/dashboard/document',
     icon: icon('ic_document'),
-  }
+  },
+  {
+    title: 'Email Template',
+    path: '/dashboard/emailtemplate',
+    icon: icon('ic_emailTemplate'),
+  },
 ];
 
 export default UserConfig;

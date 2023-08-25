@@ -55,13 +55,13 @@ const deleteMany = async (req, res) => {
     try {
         const emailIdsToDelete = req.body;
 
-        const deleteManyEmails = await Calls.updateMany({ _id: { $in: emailIdsToDelete } }, { deleted: true });
+        const deleteManyEmails = await Emails.updateMany({ _id: { $in: emailIdsToDelete } }, { deleted: true });
 
         if (deleteManyEmails.deletedCount === 0) {
             return res.status(404).json({ message: "Emails(s) not found." });
         }
 
-        res.status(200).json({ message: "Emails deleted successfully.", deleteManyEmails });
+        res.status(200).json({ message: "Emails deleted successfully", deleteManyEmails });
     } catch (err) {
         res.status(500).json({ message: "Error deleting Emails ", error: err.message });
     }
