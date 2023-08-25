@@ -27,7 +27,7 @@ const Emails = ({ rows, toggleVisibilityEmail, isVisibleEmail, _id, setUserActio
       cellClassName: "name-column--cell name-column--cell--capitalize",
       renderCell: (params) => {
         const handleFirstNameClick = () => {
-          navigate(`/dashboard/history/email/view/${params.row._id}`)
+          navigate(`/dashboard/email/view/${params.row._id}`)
         };
 
         return (
